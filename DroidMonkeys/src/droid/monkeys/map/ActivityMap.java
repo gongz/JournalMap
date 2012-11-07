@@ -1,13 +1,13 @@
 package droid.monkeys.map;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
@@ -19,6 +19,7 @@ public class ActivityMap extends MapActivity {
 	private static RelativeLayout mapLayout;
 	private static MapView mapView;
 	private static MyLocationOverlay currentLocationOverLay;
+	private GoalLocationOverLay mapPins;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -35,13 +36,6 @@ public class ActivityMap extends MapActivity {
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(true);
 
-		mapView.setOnTouchListener(new OnTouchListener() {
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getPointerCount() > 1)
-					return true;
-				return false;
-			}
-		});
 		currentLocationOverLay = new MyLocationOverlay(this, mapView);
 		currentLocationOverLay.enableMyLocation();
 		currentLocationOverLay.runOnFirstFix(new Runnable() {
@@ -51,8 +45,17 @@ public class ActivityMap extends MapActivity {
 
 			}
 		});
+
 		mapView.getOverlays().add(currentLocationOverLay);
-		mapView.getController().setZoom(18);
+		mapView.getController().setZoom(5);
+
+		Drawable marker = getResources().getDrawable(R.drawable.map_pin);
+		mapPins = new GoalLocationOverLay(marker, mapView);
+		mapView.getOverlays().add(mapPins);
+		// CMU SV
+		mapPins.addPoint(new GeoPoint(37410486, -122059769));
+		// Mexico
+		mapPins.addPoint(19.240000, -99.120000);
 	}
 
 	private void setUpControlUI() {
@@ -83,5 +86,4 @@ public class ActivityMap extends MapActivity {
 		super.onResume();
 		currentLocationOverLay.enableMyLocation();
 	}
-
 }
