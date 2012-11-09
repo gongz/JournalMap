@@ -1,8 +1,14 @@
 <resources>
 
     <string name="app_name">DroidMonkeys</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">Hello world! Archer branch</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">Journal Map</string>
+    
+    <string name="show_map">Show Map</string>
+    <string name="map">Map</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+
 
 </resources>
