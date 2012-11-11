@@ -37,7 +37,7 @@
                 <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
-        <activity android:name=".map.ActivityMap" 
+        <activity android:name="com.cmu.journalmap.map.ActivityMap" 
             android:configChanges="orientation"/>
     </application>
 

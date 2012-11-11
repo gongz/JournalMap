@@ -1,30 +1,32 @@
 package com.cmu.journalmap.activities;
 
-import java.io.File;
-import java.io.IOException;
-
+import com.cmu.journalmap.map.ActivityMap;
 import droid.monkeys.R;
-
-
-import android.media.ExifInterface;
 import android.os.Bundle;
-import android.os.Environment;
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
-import android.widget.TextView;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 /**
  * @author Kathy and Archer
- *
+ * 
  */
 public class MainActivity extends Activity {
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-
+		Button but = (Button) findViewById(R.id.main_button);
+		but.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				// show MapActivity
+				Intent intent = new Intent(view.getContext(), ActivityMap.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	@Override
@@ -32,8 +34,4 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-
-
-
-
 }
