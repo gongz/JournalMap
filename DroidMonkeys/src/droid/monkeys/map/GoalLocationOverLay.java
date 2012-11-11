@@ -24,6 +24,7 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 				-marker.getIntrinsicHeight(),
 				marker.getIntrinsicWidth() * 3 / 4, 0);
 		this.mapView = mapView;
+		
 	}
 
 	// method to draw marker at point(lat,lon) or GeoPoint
@@ -37,6 +38,10 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 				.append(String.valueOf(point.getLongitudeE6() / 1000000.0))
 				.append(" ");
 		items.add(new OverlayItem(point, "", buf.toString()));
+		populate();
+	}
+	
+	public void redraw(){
 		populate();
 	}
 
@@ -66,12 +71,13 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 
 	@Override
 	protected OverlayItem createItem(int i) {
+		if(items==null) return null;
 		return items.get(i);
 	}
 
 	@Override
 	public int size() {
-
+		if(items==null) return 0;
 		return items.size();
 	}
 

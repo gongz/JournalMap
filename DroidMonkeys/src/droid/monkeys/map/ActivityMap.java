@@ -2,6 +2,7 @@ package droid.monkeys.map;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,6 +25,7 @@ public class ActivityMap extends MapActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mapPins = (GoalLocationOverLay) getLastNonConfigurationInstance();		
 		setContentView(R.layout.activity_map);
 		setUpControlUI();
 		populateMap();
@@ -32,7 +34,6 @@ public class ActivityMap extends MapActivity {
 	private void populateMap() {
 		mapLayout = (RelativeLayout) findViewById(R.id.map_layout);
 		mapView = (MapView) findViewById(R.id.mapView);
-
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(true);
 
@@ -48,14 +49,24 @@ public class ActivityMap extends MapActivity {
 
 		mapView.getOverlays().add(currentLocationOverLay);
 		mapView.getController().setZoom(5);
-
 		Drawable marker = getResources().getDrawable(R.drawable.map_pin);
-		mapPins = new GoalLocationOverLay(marker, mapView);
+		if (mapPins == null) {
+			// Log.e(TAG,"is Null");
+			mapPins = new GoalLocationOverLay(marker, mapView);			
+			// CMU SV
+			mapPins.addPoint(new GeoPoint(37410486, -122059769));
+			// Mexico
+			mapPins.addPoint(19.240000, -99.120000);
+		} else {			
+			mapPins.redraw();
+		}
 		mapView.getOverlays().add(mapPins);
-		// CMU SV
-		mapPins.addPoint(new GeoPoint(37410486, -122059769));
-		// Mexico
-		mapPins.addPoint(19.240000, -99.120000);
+	}
+	
+	//save the markers
+	@Override
+	public Object onRetainNonConfigurationInstance() {		
+		return mapPins;
 	}
 
 	private void setUpControlUI() {
@@ -63,7 +74,7 @@ public class ActivityMap extends MapActivity {
 		Button bt_next = (Button) findViewById(R.id.map_button_next);
 		bt_back.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				// close MapActivity
+				// close MapActivity				
 				finish();
 			}
 		});
