@@ -1,0 +1,19 @@
+<resources>
+
+    <string name="app_name">DroidMonkeys</string>
+    <string name="hello_world">Hello world! Archer branch</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">Journal Map</string>
+    
+    <string name="show_map">Show Map</string>
+    <string name="map">Map</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+
+    <string name="add_loc_pin">Add Location by tapping on map</string>
+    <string name="add_loc_exif">Add Location with exif info</string>
+    <string name="add_loc_gps">Add Location with gps info</string>
+	<string name="add_loc_nfc">Add Location with nfc info</string>
+	
+	
+</resources>
