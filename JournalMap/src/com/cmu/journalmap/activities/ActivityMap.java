@@ -14,9 +14,6 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 
-
-import droid.monkeys.R;
-
 public class ActivityMap extends MapActivity {
 	private static final String TAG = "MapActivity";
 	private static RelativeLayout mapLayout;

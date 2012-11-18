@@ -12,13 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
+import com.cmu.journalmap.activities.R;
 import com.cmu.journalmap.models.Place;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
-
-import droid.monkeys.R;
 
 public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 
@@ -135,7 +134,7 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		_bubbleLayout = (RelativeLayout) inflater.inflate(
-				droid.monkeys.R.layout.bubble, mapView, false);
+				com.cmu.journalmap.activities.R.layout.bubble, mapView, false);
 
 		MapView.LayoutParams params = new MapView.LayoutParams(
 				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
@@ -145,7 +144,7 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 
 		// Locate the TextView
 		TextView locationNameText = (TextView) _bubbleLayout
-				.findViewById(droid.monkeys.R.id.locationName);
+				.findViewById(com.cmu.journalmap.activities.R.id.locationName);
 		ImageView imgView = (ImageView) _bubbleLayout
 				.findViewById(R.id.locationImage);
 		imgView.setImageDrawable(mapView.getContext().getResources()

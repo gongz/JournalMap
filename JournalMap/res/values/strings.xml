@@ -15,5 +15,11 @@
     <string name="add_loc_gps">Add Location with gps info</string>
 	<string name="add_loc_nfc">Add Location with nfc info</string>
 	
+	<string name="img_desc">Place image</string>
+	<string name="comment">Comments</string>
+	<string name="rec_button">Record audio note</string>
+	<string name="video_button">Add video note</string>
+	<string name="save_button">Save Place</string>
+
 	
 </resources>
