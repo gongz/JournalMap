@@ -21,9 +21,25 @@ public class PictureUtility
 		try
 		{
 			exif = new ExifInterface(filename);
-			coordinates[0] = Double.parseDouble(getExifTag(exif,ExifInterface.TAG_GPS_LATITUDE));
-			coordinates[1] = Double.parseDouble(getExifTag(exif,ExifInterface.TAG_GPS_LONGITUDE));
-			
+			String tempLat = getExifTag(exif,ExifInterface.TAG_GPS_LATITUDE);
+			String tempLon = getExifTag(exif,ExifInterface.TAG_GPS_LONGITUDE);
+			if (tempLat == "")
+			{
+				coordinates[0] = Double.NaN;
+			}
+			else
+			{
+				coordinates[0] = Double.parseDouble(tempLat);
+			}
+			if (tempLon == "")
+			{
+				coordinates[1] = Double.NaN;
+			}
+			else
+			{
+				coordinates[1] = Double.parseDouble(tempLon);
+			}
+				
 		} catch (IOException e)
 		{
 			// TODO Auto-generated catch block

@@ -4,8 +4,10 @@ import com.cmu.journalmap.utilities.PictureUtility;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -97,12 +99,14 @@ public class MainActivity extends Activity
 			// check for EXIF data
 			PictureUtility picUtil = new PictureUtility();
 			try{
-			double[] tempCoords = picUtil.getCoordsFromPhoto(imageUri
-					.getPath()+".jpg");
-			if ((tempCoords[0] == Double.NaN) || (tempCoords[1] == Double.NaN))
+			String picPath = getRealPathFromURI(imageUri);
+			System.out.printf("Path is:", picPath);
+			double[] tempCoords = picUtil.getCoordsFromPhoto(picPath);
+			if ( (Double.isNaN(tempCoords[0])) || (Double.isNaN(tempCoords[1])) )
 			{
 				// EXIF Coords were NOT found
 				Log.i("PictureUtlity", "EXIF Coords were NOT found");
+				but_exif.setVisibility(View.INVISIBLE);
 			} else
 			{
 				// EXIF Coords were found
@@ -119,4 +123,13 @@ public class MainActivity extends Activity
 			}
 		}
 	}
+	
+	// Source: http://stackoverflow.com/questions/3401579/get-filename-and-path-from-uri-from-mediastore
+	public String getRealPathFromURI(Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
 }
