@@ -41,7 +41,7 @@
             android:name="com.cmu.journalmap.activities.ActivityMap"
             android:configChanges="orientation" />
         <activity
-            android:name=".SavePlace"
+            android:name="com.cmu.journalmap.activities.SavePlace"
             android:label="@string/app_name" >
         </activity>
     </application>

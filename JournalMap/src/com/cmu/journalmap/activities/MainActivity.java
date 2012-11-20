@@ -24,8 +24,7 @@ public class MainActivity extends Activity
 	Button but_exif;
 	Button but_nfc;
 	Button but_gps;
-	
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,8 +70,8 @@ public class MainActivity extends Activity
 			public void onClick(View view) {
 				// show MapActivity
 
-				Intent intent = new Intent(view.getContext(), ActivityMap.class);
-				intent.putExtra("isTapAllowed", tap);
+				Intent intent = new Intent(view.getContext(), SavePlace.class);
+				//intent.putExtra("isTapAllowed", tap);
 				startActivity(intent);
 			}
 		};
@@ -98,38 +97,55 @@ public class MainActivity extends Activity
 
 			// check for EXIF data
 			PictureUtility picUtil = new PictureUtility();
-			try{
-			String picPath = getRealPathFromURI(imageUri);
-			System.out.printf("Path is:", picPath);
-			double[] tempCoords = picUtil.getCoordsFromPhoto(picPath);
-			if ( (Double.isNaN(tempCoords[0])) || (Double.isNaN(tempCoords[1])) )
+			try
 			{
-				// EXIF Coords were NOT found
-				Log.i("PictureUtlity", "EXIF Coords were NOT found");
-				but_exif.setVisibility(View.INVISIBLE);
-			} else
-			{
-				// EXIF Coords were found
-				Log.i("PictureUtlity", "EXIF Coords were found!");
-				but_pin.setVisibility(View.INVISIBLE);
-				but_exif.setVisibility(View.INVISIBLE);
-				but_nfc.setVisibility(View.INVISIBLE);
-				but_gps.setVisibility(View.INVISIBLE);
-			}
-			}
-			catch (Exception e)
+				String picPath = getRealPathFromURI(imageUri);
+				System.out.printf("Path is:", picPath);
+				double[] tempCoords = picUtil.getCoordsFromPhoto(picPath);
+				if ((Double.isNaN(tempCoords[0]))
+						|| (Double.isNaN(tempCoords[1])))
+				{
+					// EXIF Coords were NOT found
+					Log.i("PictureUtlity", "EXIF Coords were NOT found");
+					but_exif.setVisibility(View.INVISIBLE);
+				} else
+				{
+					// EXIF Coords were found
+					Log.i("PictureUtlity", "EXIF Coords were found!");
+					but_pin.setVisibility(View.INVISIBLE);
+					but_exif.setVisibility(View.INVISIBLE);
+					but_nfc.setVisibility(View.INVISIBLE);
+					but_gps.setVisibility(View.INVISIBLE);
+					
+					try
+					{
+						Class ourClass = Class
+								.forName("");
+						Intent ourIntent = new Intent(MainActivity.this,
+								ourClass);
+						Log.e("MAIN", "picPath: " + picPath);
+						intent.putExtra("placePhotoPath", picPath);
+						startActivity(ourIntent);
+					} catch (ClassNotFoundException e)
+					{
+						e.printStackTrace();
+					}
+				}
+			} catch (Exception e)
 			{
 				Log.i("IMAGE Getter", "Could not get image");
 			}
 		}
 	}
-	
-	// Source: http://stackoverflow.com/questions/3401579/get-filename-and-path-from-uri-from-mediastore
+
+	// Source:
+	// http://stackoverflow.com/questions/3401579/get-filename-and-path-from-uri-from-mediastore
 	public String getRealPathFromURI(Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
+		String[] proj = { MediaStore.Images.Media.DATA };
+		Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+		int column_index = cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		return cursor.getString(column_index);
+	}
 }

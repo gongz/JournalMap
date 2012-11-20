@@ -29,7 +29,7 @@ public class PictureUtility
 			}
 			else
 			{
-				coordinates[0] = Double.parseDouble(tempLat);
+				coordinates[0] = convertDmsToDecimal(tempLat);
 			}
 			if (tempLon == "")
 			{
@@ -37,7 +37,7 @@ public class PictureUtility
 			}
 			else
 			{
-				coordinates[1] = Double.parseDouble(tempLon);
+				coordinates[1] = convertDmsToDecimal(tempLon);
 			}
 				
 		} catch (IOException e)
@@ -54,5 +54,26 @@ public class PictureUtility
 		String attribute = exif.getAttribute(tag);
 
 		return (null != attribute ? attribute : "");
+	}
+	
+	private double convertDmsToDecimal(String coordinate)
+	{
+		double finalCoord = 0.0f;
+		String[] tempCoord, tempCoord2;
+		//String sDeg, sMin, sSec;
+		int iDeg, iMin, iSec;
+		
+		tempCoord = coordinate.split("/");
+		iDeg = Integer.parseInt(tempCoord[0]);
+		
+		tempCoord2 = tempCoord[1].split(",");
+		iMin = Integer.parseInt(tempCoord2[1]);
+		
+		tempCoord2 = tempCoord[2].split(",");
+		iSec = Integer.parseInt(tempCoord2[1]);
+		
+		finalCoord = (double)(((iMin*60) + iSec))/3600 + iDeg;
+		
+		return finalCoord;
 	}
 }

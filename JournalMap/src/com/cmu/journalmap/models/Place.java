@@ -15,5 +15,4 @@ public class Place extends OverlayItem
 		// TODO Auto-generated constructor stub
 	}
 	
-	
 }
