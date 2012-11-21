@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.cmu.journalmap.map.GoalLocationOverLay;
+import com.cmu.journalmap.models.Place;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
@@ -28,6 +29,10 @@ public class ActivityMap extends MapActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTapAllowed(getIntent().getIntExtra("isTapAllowed", 0));
+		Place pppp = (Place) getIntent().getSerializableExtra("MyClass");
+		
+		if (mapPins != null && pppp != null)
+			mapPins.addPoint(pppp.getPppp()[0],pppp.getPppp()[1]);
 		//mapPins = (GoalLocationOverLay) getLastNonConfigurationInstance();		
 		setContentView(R.layout.activity_map);
 		setUpControlUI();
