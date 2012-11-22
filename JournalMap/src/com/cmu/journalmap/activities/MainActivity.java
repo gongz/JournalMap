@@ -1,14 +1,8 @@
 package com.cmu.journalmap.activities;
 
-import com.cmu.journalmap.utilities.PictureUtility;
-
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,8 +12,7 @@ import android.widget.Button;
  * @author Kathy and Archer
  * 
  */
-public class MainActivity extends Activity
-{
+public class MainActivity extends Activity {
 	Button but_pin;
 	Button but_exif;
 	Button but_nfc;
@@ -49,12 +42,11 @@ public class MainActivity extends Activity
 
 	private OnClickListener getOnClickListener(final int tap) {
 
-		OnClickListener listener = new OnClickListener()
-		{
+		OnClickListener listener = new OnClickListener() {
 			public void onClick(View view) {
 				// show MapActivity
 
-				Intent intent = new Intent(view.getContext(), SavePlace.class);
+				Intent intent = new Intent(view.getContext(), ActivityMap.class);
 				intent.putExtra("isTapAllowed", tap);
 				startActivity(intent);
 			}

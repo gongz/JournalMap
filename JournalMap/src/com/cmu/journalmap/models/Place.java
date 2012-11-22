@@ -1,39 +1,59 @@
 package com.cmu.journalmap.models;
 
-import java.io.Serializable;
-
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
-public class Place extends OverlayItem implements Serializable
-{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class Place extends OverlayItem {
+
 	private String photoLocation;
 	private String note;
 	private String audioLocation;
 	private String videoLocation;
-	private double[] pppp;
+	private GeoPoint geoLocation;
 
 	public Place(GeoPoint point, String title, String snippet) {
 		super(point, title, snippet);
-		this.pppp = toDoublePoint(point);
+		this.geoLocation = point;
 	}
 
-	public double[] getPppp() {
-		return pppp;
+	public GeoPoint getGeoLocation() {
+		return geoLocation;
 	}
 
-	public void setPppp(double[] pppp) {
-		this.pppp = pppp;
+	public void setGeoLocation(GeoPoint geoLocation) {
+		this.geoLocation = geoLocation;
 	}
-	
-	private double[] toDoublePoint(GeoPoint geoP){
-		double[] res = {19.240000, -99.120000};
-		
-		return res;
+
+	public String getPhotoLocation() {
+		return photoLocation;
 	}
-	
+
+	public void setPhotoLocation(String photoLocation) {
+		this.photoLocation = photoLocation;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public String getAudioLocation() {
+		return audioLocation;
+	}
+
+	public void setAudioLocation(String audioLocation) {
+		this.audioLocation = audioLocation;
+	}
+
+	public String getVideoLocation() {
+		return videoLocation;
+	}
+
+	public void setVideoLocation(String videoLocation) {
+		this.videoLocation = videoLocation;
+	}
+
 }

@@ -3,6 +3,7 @@ package com.cmu.journalmap.activities;
 import java.io.File;
 
 import com.cmu.journalmap.models.Place;
+import com.cmu.journalmap.storage.Places;
 import com.cmu.journalmap.utilities.PictureUtility;
 import com.google.android.maps.GeoPoint;
 
@@ -19,108 +20,103 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-public class SavePlace extends Activity
-{
+public class SavePlace extends Activity {
 	Button savePlace;
 	EditText commentBlock;
 	Button recordAudio;
 	Button recordVideo;
 	Uri imageUri;
 	Place newPlace;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_addplace);
-		
+
 		savePlace = (Button) findViewById(R.id.bSaveButton);
 		commentBlock = (EditText) findViewById(R.id.etComments);
 		recordAudio = (Button) findViewById(R.id.bRecButton);
 		recordVideo = (Button) findViewById(R.id.bVideoButton);
-		
-		ImageView placePic= (ImageView) findViewById(R.id.ivPlacePic);
-		
+
+		ImageView placePic = (ImageView) findViewById(R.id.ivPlacePic);
+
 		// Get intent, action and MIME type
 		Intent intent = getIntent();
 		String action = intent.getAction();
 		String type = intent.getType();
 
-		if (Intent.ACTION_SEND.equals(action) && type != null)
-		{
-			if (type.startsWith("image/"))
-			{
+		if (Intent.ACTION_SEND.equals(action) && type != null) {
+			if (type.startsWith("image/")) {
 				handleSendImage(intent); // Handle single image being sent
 			}
 		}
-		
-		
-		//String photoPath = getIntent().getStringExtra("placePhotoPath");
-		
-		//Log.e("SAVEPLACE", "placePhotoPath: " + imageUri.toString());
-		if(placePic!=null)
-		placePic.setImageURI(imageUri);	
 
+		// String photoPath = getIntent().getStringExtra("placePhotoPath");
 
-		
-		
-		savePlace.setOnClickListener(new OnClickListener()
-		{
-			
+		Log.e("SAVEPLACE", "placePhotoPath: " + imageUri.toString());
+		if (placePic != null) {
+			placePic.setImageURI(imageUri);
+		}
+
+		savePlace.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-			    newPlace = new Place(new GeoPoint(37510486, -122059769), "Archer's house", "Coolest Place EVER");
+				//Here~~ Kathy, we need the exif info
+				//Don't create my house on the ocean.
+				
+				newPlace = new Place(new GeoPoint(7510486, -122059769),
+						"Archer's house", "Coolest Place EVER");
+				newPlace.setPhotoLocation(getRealPathFromURI(imageUri));
+				//newPlace.setAudioLocation();
+				//newPlace.setVideoLocation();
+				
 				Intent intent = new Intent(v.getContext(), ActivityMap.class);
-				intent.putExtra("isTapAllowed", 0);
-				intent.putExtra("MyClass", newPlace); 
+				//Please check class: Places
+				Places.getItems().add(newPlace);
+				
 				startActivity(intent);
 			}
 		});
 
 	}
-	
+
 	void handleSendImage(Intent intent) {
 		imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-		if (imageUri != null)
-		{
+		if (imageUri != null) {
 			// Update UI to reflect image being shared
 			Log.i("Main", "Image is being shared");
 
 			// check for EXIF data
 			PictureUtility picUtil = new PictureUtility();
-			try
-			{
+			try {
 				String picPath = getRealPathFromURI(imageUri);
 				System.out.printf("Path is:", picPath);
 				double[] tempCoords = picUtil.getCoordsFromPhoto(picPath);
 				if ((Double.isNaN(tempCoords[0]))
-						|| (Double.isNaN(tempCoords[1])))
-				{
+						|| (Double.isNaN(tempCoords[1]))) {
 					// EXIF Coords were NOT found
 					Log.i("PictureUtlity", "EXIF Coords were NOT found");
 
-				} else
-				{
+				} else {
 					// EXIF Coords were found
 					Log.i("PictureUtlity", "EXIF Coords were found!");
-					//but_pin.setVisibility(View.INVISIBLE);
+					// but_pin.setVisibility(View.INVISIBLE);
 
-//					try
-//					{
-//						Class ourClass = Class
-//								.forName("");
-//						Intent ourIntent = new Intent(SavePlace.this,
-//								ourClass);
-//						Log.e("MAIN", "picPath: " + picPath);
-//						//intent.putExtra("placePhotoPath", picPath);
-//						startActivity(ourIntent);
-//					} catch (ClassNotFoundException e)
-//					{
-//						e.printStackTrace();
-//					}
+					// try
+					// {
+					// Class ourClass = Class
+					// .forName("");
+					// Intent ourIntent = new Intent(SavePlace.this,
+					// ourClass);
+					// Log.e("MAIN", "picPath: " + picPath);
+					// //intent.putExtra("placePhotoPath", picPath);
+					// startActivity(ourIntent);
+					// } catch (ClassNotFoundException e)
+					// {
+					// e.printStackTrace();
+					// }
 				}
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				Log.i("IMAGE Getter", "Could not get image");
 			}
 		}
@@ -136,6 +132,5 @@ public class SavePlace extends Activity
 		cursor.moveToFirst();
 		return cursor.getString(column_index);
 	}
-	
-	
+
 }

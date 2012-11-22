@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,7 +16,10 @@ import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
 import com.cmu.journalmap.activities.R;
+import com.cmu.journalmap.activities.SavePlace;
 import com.cmu.journalmap.models.Place;
+import com.cmu.journalmap.storage.Places;
+import com.cmu.journalmap.utilities.PictureUtility;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapView;
@@ -23,9 +29,6 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 
 	private static final String TAG = "GoalLocationOverLay";
 	private MapView mapView;
-
-	// need to store this somewhere
-	private static List<Place> items = new ArrayList<Place>();
 	private RelativeLayout _bubbleLayout;
 	private boolean isTapAllowed = false;
 
@@ -39,6 +42,7 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 		this.mapView = mapView;
 		populate();
 		this.isTapAllowed = isTapAllowed;
+		
 	}
 
 	// method to draw marker at point(lat,lon) or GeoPoint
@@ -51,7 +55,7 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 		buf.append("Lon: ")
 				.append(String.valueOf(point.getLongitudeE6() / 1000000.0))
 				.append(" ");
-		items.add(new Place(point, "", buf.toString()));
+		Places.getItems().add(new Place(point, "", buf.toString()));
 		populate();
 
 	}
@@ -69,7 +73,7 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 
 	@Override
 	protected boolean onTap(int index) {
-		Place item = items.get(index);
+		Place item = Places.getItems().get(index);
 		if (_bubbleLayout == null) {
 			createBubble(item);
 		} else {
@@ -117,12 +121,12 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 
 	@Override
 	protected OverlayItem createItem(int i) {
-		return items.get(i);
+		return Places.getItems().get(i);
 	}
 
 	@Override
 	public int size() {
-		return items.size();
+		return Places.getItems().size();
 	}
 
 	private GeoPoint getPoint(double lat, double lon) {
@@ -147,12 +151,18 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 				.findViewById(com.cmu.journalmap.activities.R.id.locationName);
 		ImageView imgView = (ImageView) _bubbleLayout
 				.findViewById(R.id.locationImage);
-		imgView.setImageDrawable(mapView.getContext().getResources()
-				.getDrawable(R.drawable.jm_launcher));
+		
+		Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(item.getPhotoLocation(), 200 , 200);		
+		imgView.setImageBitmap(ThumbImage);
+		
+//		imgView.setImageDrawable(mapView.getContext().getResources()
+//				.getDrawable(R.drawable.jm_launcher));
 		// Set the Text
-		locationNameText.setText(geoToString(item.getPoint()));
+		locationNameText.setText(item.getTitle()+" "+item.getSnippet());
 		// Add the view to the Map
 		mapView.addView(_bubbleLayout);
 
 	}
+	
+	
 }

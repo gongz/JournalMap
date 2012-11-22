@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import com.cmu.journalmap.map.GoalLocationOverLay;
 import com.cmu.journalmap.models.Place;
+import com.cmu.journalmap.storage.Places;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
@@ -22,18 +23,11 @@ public class ActivityMap extends MapActivity {
 	private static MyLocationOverlay currentLocationOverLay;
 	private GoalLocationOverLay mapPins;
 	private boolean isTapAllowed = false;
-	
-	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTapAllowed(getIntent().getIntExtra("isTapAllowed", 0));
-		Place pppp = (Place) getIntent().getSerializableExtra("MyClass");
-		
-		if (mapPins != null && pppp != null)
-			mapPins.addPoint(pppp.getPppp()[0],pppp.getPppp()[1]);
-		//mapPins = (GoalLocationOverLay) getLastNonConfigurationInstance();		
 		setContentView(R.layout.activity_map);
 		setUpControlUI();
 		populateMap();
@@ -49,8 +43,14 @@ public class ActivityMap extends MapActivity {
 		currentLocationOverLay.enableMyLocation();
 		currentLocationOverLay.runOnFirstFix(new Runnable() {
 			public void run() {
-				mapView.getController().animateTo(
-						currentLocationOverLay.getMyLocation());
+				if (Places.getItems().size() > 0) {
+					mapView.getController().animateTo(
+							Places.getItems().get(Places.getItems().size() - 1)
+									.getGeoLocation());
+				} else {
+					mapView.getController().animateTo(
+							currentLocationOverLay.getMyLocation());
+				}
 
 			}
 		});
@@ -60,21 +60,17 @@ public class ActivityMap extends MapActivity {
 		Drawable marker = getResources().getDrawable(R.drawable.map_pin);
 		if (mapPins == null) {
 			// Log.e(TAG,"is Null");
-			mapPins = new GoalLocationOverLay(marker, mapView,isTapAllowed());			
-			// CMU SV
-			mapPins.addPoint(new GeoPoint(37410486, -122059769));
-			
-			// Mexico
-			//mapPins.addPoint(19.240000, -99.120000);
-		} else {			
+			mapPins = new GoalLocationOverLay(marker, mapView, isTapAllowed());
+		} else {
 			mapPins.redraw();
 		}
 		mapView.getOverlays().add(mapPins);
+
 	}
-	
-	//save the markers
+
+	// save the markers
 	@Override
-	public Object onRetainNonConfigurationInstance() {		
+	public Object onRetainNonConfigurationInstance() {
 		return mapPins;
 	}
 
@@ -83,7 +79,7 @@ public class ActivityMap extends MapActivity {
 		Button bt_next = (Button) findViewById(R.id.map_button_next);
 		bt_back.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				// close MapActivity				
+				// close MapActivity
 				finish();
 			}
 		});
@@ -97,7 +93,7 @@ public class ActivityMap extends MapActivity {
 
 	@Override
 	protected void onStop() {
-		if(currentLocationOverLay!=null)
+		if (currentLocationOverLay != null)
 			currentLocationOverLay.disableMyLocation();
 		super.onStop();
 	}
@@ -105,16 +101,18 @@ public class ActivityMap extends MapActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(currentLocationOverLay!=null)
+		if (currentLocationOverLay != null)
 			currentLocationOverLay.enableMyLocation();
 	}
-	
+
 	public boolean isTapAllowed() {
 		return isTapAllowed;
 	}
 
 	public void setTapAllowed(int isTapAllowed) {
-		if(isTapAllowed!=0) this.isTapAllowed  = true;
-		else this.isTapAllowed  = false;	
+		if (isTapAllowed != 0)
+			this.isTapAllowed = true;
+		else
+			this.isTapAllowed = false;
 	}
 }
