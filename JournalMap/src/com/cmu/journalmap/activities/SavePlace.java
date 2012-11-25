@@ -5,6 +5,7 @@ import java.io.File;
 import com.cmu.journalmap.models.Place;
 import com.cmu.journalmap.storage.Places;
 import com.cmu.journalmap.utilities.PictureUtility;
+import com.cmu.journalmap.utilities.PropertiesUtility;
 import com.google.android.maps.GeoPoint;
 
 import android.app.Activity;
@@ -61,6 +62,7 @@ public class SavePlace extends Activity {
 
 		savePlace.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+
 				//Here~~ Kathy, we need the exif info
 				//Don't create my house on the ocean.
 				
@@ -70,6 +72,12 @@ public class SavePlace extends Activity {
 				//newPlace.setAudioLocation();
 				//newPlace.setVideoLocation();
 				
+			    newPlace.setPhotoLocation(getRealPathFromURI(imageUri));
+			    newPlace.setNote(commentBlock.getText().toString());
+			    
+			    PropertiesUtility pu = new PropertiesUtility();
+			    pu.writePlaceToFile(v.getContext(), newPlace);
+
 				Intent intent = new Intent(v.getContext(), ActivityMap.class);
 				//Please check class: Places
 				Places.getItems().add(newPlace);
@@ -100,21 +108,6 @@ public class SavePlace extends Activity {
 				} else {
 					// EXIF Coords were found
 					Log.i("PictureUtlity", "EXIF Coords were found!");
-					// but_pin.setVisibility(View.INVISIBLE);
-
-					// try
-					// {
-					// Class ourClass = Class
-					// .forName("");
-					// Intent ourIntent = new Intent(SavePlace.this,
-					// ourClass);
-					// Log.e("MAIN", "picPath: " + picPath);
-					// //intent.putExtra("placePhotoPath", picPath);
-					// startActivity(ourIntent);
-					// } catch (ClassNotFoundException e)
-					// {
-					// e.printStackTrace();
-					// }
 				}
 			} catch (Exception e) {
 				Log.i("IMAGE Getter", "Could not get image");
