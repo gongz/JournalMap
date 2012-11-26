@@ -10,7 +10,7 @@ import android.os.Environment;
 
 public class PictureUtility
 {
-	public double[] getCoordsFromPhoto(String filename)
+	public static double[] getCoordsFromPhoto(String filename)
 	{
 //		File sdcard = Environment.getExternalStorageDirectory();
 //		//Get the text file
@@ -25,6 +25,9 @@ public class PictureUtility
 			exif = new ExifInterface(filename);
 			String tempLat = getExifTag(exif,ExifInterface.TAG_GPS_LATITUDE);
 			String tempLon = getExifTag(exif,ExifInterface.TAG_GPS_LONGITUDE);
+			String tempLatDir = getExifTag(exif,ExifInterface.TAG_GPS_LATITUDE_REF);
+			String tempLonDir = getExifTag(exif,ExifInterface.TAG_GPS_LONGITUDE_REF);
+			
 			if (tempLat == "")
 			{
 				coordinates[0] = Double.NaN;
@@ -32,6 +35,12 @@ public class PictureUtility
 			else
 			{
 				coordinates[0] = convertDmsToDecimal(tempLat);
+				
+				if (tempLatDir.equals("S"))
+				{
+					coordinates[0] = coordinates[0]*-1;
+				}
+				
 			}
 			if (tempLon == "")
 			{
@@ -40,6 +49,11 @@ public class PictureUtility
 			else
 			{
 				coordinates[1] = convertDmsToDecimal(tempLon);
+				
+				if (tempLonDir.equals("W"))
+				{
+					coordinates[1] = coordinates[1]*-1;
+				}
 			}
 				
 		} catch (IOException e)
@@ -52,13 +66,13 @@ public class PictureUtility
 	}
 	
 	// TODO: cite
-	private String getExifTag(ExifInterface exif,String tag){
+	private static String getExifTag(ExifInterface exif,String tag){
 		String attribute = exif.getAttribute(tag);
 
 		return (null != attribute ? attribute : "");
 	}
 	
-	private double convertDmsToDecimal(String coordinate)
+	private static double convertDmsToDecimal(String coordinate)
 	{
 		double finalCoord = 0.0f;
 		String[] tempCoord, tempCoord2;
