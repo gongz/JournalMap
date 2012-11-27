@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.cmu.journalmap.map.GoalLocationOverLay;
 import com.cmu.journalmap.models.Place;
 import com.cmu.journalmap.storage.Places;
+import com.cmu.journalmap.utilities.PropertiesUtility;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
@@ -43,6 +44,7 @@ public class ActivityMap extends MapActivity {
 		currentLocationOverLay.enableMyLocation();
 		currentLocationOverLay.runOnFirstFix(new Runnable() {
 			public void run() {
+				Places.setItems(PropertiesUtility.propertiesToPlaceList());
 				if (Places.getItems().size() > 0) {
 					mapView.getController().animateTo(
 							Places.getItems().get(Places.getItems().size() - 1)
