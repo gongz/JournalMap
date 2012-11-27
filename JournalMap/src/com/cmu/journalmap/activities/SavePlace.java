@@ -1,7 +1,5 @@
 package com.cmu.journalmap.activities;
 
-import java.io.File;
-
 import com.cmu.journalmap.models.Place;
 import com.cmu.journalmap.storage.Places;
 import com.cmu.journalmap.utilities.PictureUtility;
@@ -65,14 +63,16 @@ public class SavePlace extends Activity {
 
 				//Here~~ Kathy, we need the exif info
 				//Don't create my house on the ocean.
-				
-				newPlace = new Place(new GeoPoint(7510486, -122059769),
-						"Archer's house", "Coolest Place EVER");
+				String picPath = getRealPathFromURI(imageUri);
+				System.out.printf("Path is:", picPath);
+				int[] tempCoords = PictureUtility.getCoordsFromPhoto(picPath);
+				newPlace = new Place(new GeoPoint(tempCoords[0], tempCoords[1]),
+						"", "");
 				newPlace.setPhotoLocation(getRealPathFromURI(imageUri));
 				//newPlace.setAudioLocation();
 				//newPlace.setVideoLocation();
 				
-			    newPlace.setPhotoLocation(getRealPathFromURI(imageUri));
+				
 			    newPlace.setNote(commentBlock.getText().toString());
 			    
 			    PropertiesUtility pu = new PropertiesUtility();
@@ -95,13 +95,12 @@ public class SavePlace extends Activity {
 			Log.i("Main", "Image is being shared");
 
 			// check for EXIF data
-			PictureUtility picUtil = new PictureUtility();
 			try {
 				String picPath = getRealPathFromURI(imageUri);
 				System.out.printf("Path is:", picPath);
-				double[] tempCoords = picUtil.getCoordsFromPhoto(picPath);
-				if ((Double.isNaN(tempCoords[0]))
-						|| (Double.isNaN(tempCoords[1]))) {
+				int[] tempCoords = PictureUtility.getCoordsFromPhoto(picPath);
+				if ((tempCoords[0] == 0)
+						|| (tempCoords[1] == 0)) {
 					// EXIF Coords were NOT found
 					Log.i("PictureUtlity", "EXIF Coords were NOT found");
 

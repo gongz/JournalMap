@@ -52,12 +52,15 @@ public class PropertiesUtility
 		properties.setProperty("note" + String.valueOf(numOfPlaces), p.getNote());
 		properties.setProperty("audioLocation" + String.valueOf(numOfPlaces), p.getAudioLocation());
 		properties.setProperty("videoLocation" + String.valueOf(numOfPlaces), p.getVideoLocation());
+		//properties.setProperty("geoLocation" + String.valueOf(numOfPlaces), p.getGeoLocation());
 		properties.setProperty("numOfPlaces", String.valueOf(numOfPlaces+1));
 		
 	    FileOutputStream fos;
 		try
 		{
-			fos = c.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+			//fos = c.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+			fos = c.openFileOutput(FILENAME, Context.MODE_WORLD_READABLE);
+			Log.i("LOCATION","Location is:" + c.getFilesDir().toString());
 			properties.store(fos, "JournalMap properties");	
 		    fos.close();
 			

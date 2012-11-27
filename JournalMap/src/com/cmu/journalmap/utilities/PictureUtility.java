@@ -10,14 +10,14 @@ import android.os.Environment;
 
 public class PictureUtility
 {
-	public static double[] getCoordsFromPhoto(String filename)
+	public static int[] getCoordsFromPhoto(String filename)
 	{
 //		File sdcard = Environment.getExternalStorageDirectory();
 //		//Get the text file
 //		File file = new File(sdcard,"DCIM/Camera/IMG396.jpg");
 //		String filePath = file.getAbsolutePath();
 		
-		double[] coordinates = {Double.NaN, Double.NaN};
+		int[] coordinates = {0, 0};
 		
 		ExifInterface exif;
 		try
@@ -30,7 +30,7 @@ public class PictureUtility
 			
 			if (tempLat == "")
 			{
-				coordinates[0] = Double.NaN;
+				coordinates[0] = 0;
 			}
 			else
 			{
@@ -44,7 +44,7 @@ public class PictureUtility
 			}
 			if (tempLon == "")
 			{
-				coordinates[1] = Double.NaN;
+				coordinates[1] = 0;
 			}
 			else
 			{
@@ -72,25 +72,35 @@ public class PictureUtility
 		return (null != attribute ? attribute : "");
 	}
 	
-	private static double convertDmsToDecimal(String coordinate)
+	private static int convertDmsToDecimal(String coordinate)
 	{
 		double finalCoord = 0.0f;
-		String[] tempCoord, tempCoord2;
+		String[] tempCoord;
 		//String sDeg, sMin, sSec;
 		int iDeg, iMin, iSec;
+		int iDegDivider, iMinDivider, iSecDivider;
 		
-		tempCoord = coordinate.split("/");
+		
+		String[] coordPairs = coordinate.split(",");
+		
+		tempCoord = coordPairs[0].split("/");
+		
 		iDeg = Integer.parseInt(tempCoord[0]);
+		iDegDivider = Integer.parseInt(tempCoord[1]);
 		
-		tempCoord2 = tempCoord[1].split(",");
-		iMin = Integer.parseInt(tempCoord2[1]);
+		tempCoord = coordPairs[1].split("/");
 		
-		tempCoord2 = tempCoord[2].split(",");
-		iSec = Integer.parseInt(tempCoord2[1]);
+		iMin = Integer.parseInt(tempCoord[0]);
+		iMinDivider = Integer.parseInt(tempCoord[1]);
 		
-		finalCoord = (double)(((iMin*60) + iSec))/3600 + iDeg;
+		tempCoord = coordPairs[2].split("/");
 		
-		return finalCoord;
+		iSec = Integer.parseInt(tempCoord[0]);
+		iSecDivider = Integer.parseInt(tempCoord[1]);
+		
+		finalCoord = (double)((((iMin/((double)iMinDivider)*60) + (iSec/(double)iSecDivider)))/3600 + (iDeg/(double)iDegDivider));
+		
+		return (int)finalCoord*1000000;
 	}
 	
 	public static Bitmap decodeSampledBitmapFromPath(String res,
