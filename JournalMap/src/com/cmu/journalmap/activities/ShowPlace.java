@@ -1,10 +1,13 @@
 package com.cmu.journalmap.activities;
 
 import com.cmu.journalmap.models.Place;
+import com.cmu.journalmap.utilities.AudioUtility;
 import com.cmu.journalmap.utilities.PictureUtility;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -14,21 +17,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ShowPlace extends Activity {
-	Button backButton;
-	TextView commentBlock;
-	Button playAudio;
-	Button playVideo;
-	Uri imageUri;
-	Place newPlace;
-	ImageView placePic;
+	private Button backButton = null;
+	private TextView commentBlock = null;
+	private Button playAudio = null;
+	private Button playVideo = null;
+	private Uri imageUri = null;
+	private Place newPlace = null;
+	private ImageView placePic = null;	
+	private MediaPlayer mPlayer = null;
 
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_showplace);
-		
-		
+		setContentView(R.layout.activity_showplace);		
 		backButton = (Button) findViewById(R.id.bBackButton);
 		commentBlock = (TextView) findViewById(R.id.showComments);
 		playAudio = (Button) findViewById(R.id.bRecPlayButton);
@@ -41,6 +44,23 @@ public class ShowPlace extends Activity {
 		});	
 		Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(getIntent().getStringExtra("pictureLoc"), 400 , 400);		
 		placePic.setImageBitmap(ThumbImage);		
-		commentBlock.setText(getIntent().getStringExtra("note"));		
+		commentBlock.setText(getIntent().getStringExtra("note"));
+		
+		playAudio.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Button playBt = (Button) v;
+				if (playBt.getText().equals(
+						v.getResources().getString(R.string.rec_play_button))) {
+					playBt.setText(v.getResources().getString(
+							R.string.rec_stop_button));					
+					mPlayer = AudioUtility.startPlaying(getIntent().getStringExtra("audioLoc"));
+				} else {
+					playBt.setText(v.getResources().getString(
+							R.string.rec_play_button));
+					AudioUtility.stopPlaying(mPlayer);
+				}
+
+			}
+		});
 	}	
 }
