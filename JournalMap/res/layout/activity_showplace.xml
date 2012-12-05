@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="25dp" >
+
+    <ImageView
+        android:id="@+id/ivPlacePic"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp"
+        android:contentDescription="@string/img_desc"
+        android:src="@drawable/jm_launcher" />
+
+    <TextView
+        android:id="@+id/comments"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="@string/comment" />
+
+    <TextView
+        android:id="@+id/showComments"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        />      
+    
+
+    <Button
+        android:id="@+id/bRecPlayButton"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="20"
+        android:text="@string/play_rec_button" />
+
+    <Button
+        android:id="@+id/bVideoPlayButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/play_video_button" />
+
+    <Button
+        android:id="@+id/bBackButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="@string/back" />
+
+</LinearLayout>

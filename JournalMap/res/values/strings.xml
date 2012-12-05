@@ -20,6 +20,10 @@
 	<string name="rec_button">Record audio note</string>
 	<string name="video_button">Add video note</string>
 	<string name="save_button">Save Place</string>
+	
+	<string name="play_rec_button">Play audio note</string>
+	<string name="play_video_button">Play video note</string>
+	
 
 	
 </resources>

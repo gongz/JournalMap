@@ -44,7 +44,7 @@ public class ActivityMap extends MapActivity {
 		currentLocationOverLay.enableMyLocation();
 		currentLocationOverLay.runOnFirstFix(new Runnable() {
 			public void run() {
-				Places.setItems(PropertiesUtility.propertiesToPlaceList());
+				Places.setItems(PropertiesUtility.propertiesToPlaceList(mapView.getContext()));
 				if (Places.getItems().size() > 0) {
 					mapView.getController().animateTo(
 							Places.getItems().get(Places.getItems().size() - 1)

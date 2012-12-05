@@ -18,9 +18,9 @@ public class PropertiesUtility
 {
 	String path = null;
 	static String FILENAME = "journalmap.properties";
-	Properties properties = new Properties();
+	static Properties properties = new Properties();
 	
-	public void writePlaceToFile(Context c, Place p)
+	public static void writePlaceToFile(Context c, Place p)
 	{
 		// check to see if properties file exists
 		FileInputStream fis;
@@ -51,14 +51,23 @@ public class PropertiesUtility
 			e.printStackTrace();
 		}
 		Log.i("PROPERTIES", "numOfPlaces = " + numOfPlaces);
-		properties.setProperty("photoLocation" + String.valueOf(numOfPlaces), p.getPhotoLocation());
+		if (p != null)
+		{
+			properties.setProperty("photoLocation" + String.valueOf(numOfPlaces), p.getPhotoLocation());
 		properties.setProperty("note" + String.valueOf(numOfPlaces), p.getNote());
 		properties.setProperty("audioLocation" + String.valueOf(numOfPlaces), p.getAudioLocation());
 		properties.setProperty("videoLocation" + String.valueOf(numOfPlaces), p.getVideoLocation());
 		properties.setProperty("geoLocationLat" + String.valueOf(numOfPlaces), String.valueOf(p.getGeoLocation().getLatitudeE6()));
 		properties.setProperty("geoLocationLon" + String.valueOf(numOfPlaces), String.valueOf(p.getGeoLocation().getLongitudeE6()));
-		properties.setProperty("numOfPlaces", String.valueOf(numOfPlaces+1));
-		
+		}
+		if (p == null)
+		{
+			properties.setProperty("numOfPlaces", String.valueOf(numOfPlaces));
+		}
+		else
+		{
+			properties.setProperty("numOfPlaces", String.valueOf(numOfPlaces+1));
+		}
 	    FileOutputStream fos;
 		try
 		{
@@ -80,25 +89,49 @@ public class PropertiesUtility
 
 	}
 	
-	public static List<Place> propertiesToPlaceList()
+	public static List<Place> propertiesToPlaceList(Context c)
 	{
 		List<Place> placeList = new ArrayList<Place>();
 		
 		Properties props= new Properties();
-		FileInputStream in;
+		FileInputStream in = null;
+		
+		//
+		
 		try {
-			in = new FileInputStream(FILENAME);
+			//in = new FileInputStream(FILENAME);
+			in = c.openFileInput(FILENAME);
 			props.load(in);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			//e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		//Place(GeoPoint point, String title, String snippet)
-		int numberOfPlaces = Integer.parseInt(props.getProperty("numOfPlaces"));
+		String strNumberOfPlaces = props.getProperty("numOfPlaces");
+		if(strNumberOfPlaces == null)
+		{
+			PropertiesUtility.writePlaceToFile(c, null);
+			try {
+				in = c.openFileInput(FILENAME);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				props.load(in);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			strNumberOfPlaces = props.getProperty("numOfPlaces");
+		}
+
+		int numberOfPlaces = Integer.parseInt(strNumberOfPlaces);
 		
 		for (int i = 0; i < numberOfPlaces; i++)
 		{
