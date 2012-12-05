@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,9 +38,11 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 	private MapView mapView;
 	private RelativeLayout _bubbleLayout;
 	private boolean isTapAllowed = false;
-
+	private Activity mapActivity = null;
+	
+	
 	public GoalLocationOverLay(Drawable marker, MapView mapView,
-			Boolean isTapAllowed) {
+			Boolean isTapAllowed, Activity mapActivity) {
 		super(marker);
 		// this totally depends on the img we have
 		marker.setBounds(-marker.getIntrinsicWidth() / 4,
@@ -48,6 +51,7 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 		this.mapView = mapView;
 		populate();
 		this.isTapAllowed = isTapAllowed;
+		this.mapActivity = mapActivity;
 		
 	}
 
@@ -81,7 +85,15 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 	protected boolean onTap(int index) {
 		Place item = Places.getItems().get(index);
 		if (_bubbleLayout == null) {
-			createBubble(item);
+			if (item.getPhotoLocation()!=null) {
+				createBubble(item);
+			} else {
+				Intent returnIntent = new Intent();
+				returnIntent.putExtra("lag", item.getGeoLocation().getLatitudeE6());
+				returnIntent.putExtra("lon", item.getGeoLocation().getLongitudeE6());
+				this.mapActivity.setResult(Activity.RESULT_OK, returnIntent);
+				this.mapActivity.finish();
+			}
 		} else {
 			// if the user tapped on the marker
 			// and there is a bubble showing, clear the current bubble
@@ -178,6 +190,4 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 		mapView.addView(_bubbleLayout);
 
 	}
-	
-	
 }

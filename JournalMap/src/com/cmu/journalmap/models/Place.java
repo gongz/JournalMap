@@ -5,11 +5,11 @@ import com.google.android.maps.OverlayItem;
 
 public class Place extends OverlayItem {
 
-	private String photoLocation = "";
-	private String note = "";
-	private String audioLocation = "";
-	private String videoLocation = "";
-	private GeoPoint geoLocation;
+	private String photoLocation = null;
+	private String note = null;
+	private String audioLocation = null;
+	private String videoLocation = null;
+	private GeoPoint geoLocation = null;
 
 	public Place(GeoPoint point, String title, String snippet) {
 		super(point, title, snippet);
@@ -40,45 +40,29 @@ public class Place extends OverlayItem {
 		this.note = note;
 	}
 
-
-
 	public String getAudioLocation() {
 		return audioLocation;
 	}
-
-
 
 	public void setAudioLocation(String audioLocation) {
 		this.audioLocation = audioLocation;
 	}
 
-
-
 	public String getVideoLocation() {
 		return videoLocation;
 	}
-
-
 
 	public void setVideoLocation(String videoLocation) {
 		this.videoLocation = videoLocation;
 	}
 
-//	public String ppppToString()
-//	{
-//		String strPppp = Double.toString(pppp[0]) + "," + Double.toString(pppp[1]);
-//		
-//		return strPppp;
-//	}
-	
-	public double[] stringToPppp(String strPppp)
-	{
-		double[] tempCoords = {0,0};
-		String[] tempString = strPppp.split(",");
-		
-		tempCoords[0] = Double.parseDouble(tempString[0]);
-		tempCoords[0] = Double.parseDouble(tempString[1]);
-		return tempCoords;
-	}
+	@Override
+	public String toString() {
+		StringBuffer buf = new StringBuffer();
+		buf.append(photoLocation).append(" ").append(note).append(" ")
+				.append(audioLocation).append(" ").append(videoLocation)
+				.append(" ").append(geoLocation).append(" ");
+		return buf.toString();
 
+	}
 }

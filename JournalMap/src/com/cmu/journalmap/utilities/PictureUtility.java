@@ -3,13 +3,17 @@ package com.cmu.journalmap.utilities;
 import java.io.File;
 import java.io.IOException;
 
+import com.google.android.maps.GeoPoint;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
 import android.os.Environment;
+import android.util.Log;
 
 public class PictureUtility
 {
+	public static final String TAG = PictureUtility.class.getName();
 	public static int[] getCoordsFromPhoto(String filename)
 	{
 //		File sdcard = Environment.getExternalStorageDirectory();
@@ -17,7 +21,7 @@ public class PictureUtility
 //		File file = new File(sdcard,"DCIM/Camera/IMG396.jpg");
 //		String filePath = file.getAbsolutePath();
 		
-		int[] coordinates = {0, 0};
+		int[] coordinates = {Integer.MAX_VALUE, Integer.MAX_VALUE};
 		
 		ExifInterface exif;
 		try
@@ -30,7 +34,7 @@ public class PictureUtility
 			
 			if (tempLat == "")
 			{
-				coordinates[0] = 0;
+				coordinates[0] = Integer.MAX_VALUE;
 			}
 			else
 			{
@@ -44,7 +48,7 @@ public class PictureUtility
 			}
 			if (tempLon == "")
 			{
-				coordinates[1] = 0;
+				coordinates[1] = Integer.MAX_VALUE;
 			}
 			else
 			{
@@ -134,5 +138,16 @@ public class PictureUtility
 			}
 		}
 		return inSampleSize;
+	}
+	
+	public static boolean isCoordinatesValid(int[] coord){
+		return (isCoordinatesValid(coord[0]) && isCoordinatesValid(coord[1]));
+	}
+	public static boolean isCoordinatesValid(GeoPoint point){
+		
+		return (isCoordinatesValid(point.getLatitudeE6()) && isCoordinatesValid(point.getLongitudeE6()));
+	}
+	public static boolean isCoordinatesValid(int in){
+		return (in>=-180*1000000 && in<=180*1000000);
 	}
 }

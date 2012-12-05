@@ -11,6 +11,7 @@ import com.google.android.maps.GeoPoint;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
@@ -22,6 +23,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,16 +36,17 @@ public class SavePlace extends Activity {
 
 	private Button recordAudio = null;
 	private Button playAudio = null;
-	private String audioLoc = null;
+	private String audioLoc = "";
 
 	private Button recordVideo = null;
-	private String videoLoc = null;
+	private String videoLoc = "";
 	private Uri imageUri = null;
 	private Place newPlace = null;
 
 	private MediaRecorder mRecorder = null;
 	private MediaPlayer mPlayer = null;
 
+	private int[] currentCoordinates = { Integer.MAX_VALUE, Integer.MAX_VALUE };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,19 +80,30 @@ public class SavePlace extends Activity {
 		savePlace.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				String picPath = getRealPathFromURI(imageUri);
-				System.out.printf("Path is:", picPath);
-				int[] tempCoords = PictureUtility.getCoordsFromPhoto(picPath);
-				newPlace = new Place(
-						new GeoPoint(tempCoords[0], tempCoords[1]), "", "");
-				newPlace.setPhotoLocation(getRealPathFromURI(imageUri));
-				newPlace.setAudioLocation(audioLoc);
-				// newPlace.setVideoLocation();
-				newPlace.setNote(commentBlock.getText().toString());
-				PropertiesUtility.writePlaceToFile(v.getContext(), newPlace);
-				Intent intent = new Intent(v.getContext(), ActivityMap.class);
-				// Please check class: Places
-				Places.getItems().add(newPlace);
-				startActivity(intent);
+				int[] tempCoords = PictureUtility
+						.isCoordinatesValid(PictureUtility
+								.getCoordsFromPhoto(picPath)) ? PictureUtility
+						.getCoordsFromPhoto(picPath) : currentCoordinates;
+				
+				if (PictureUtility.isCoordinatesValid(tempCoords)) {
+					newPlace = new Place(new GeoPoint(tempCoords[0],
+							tempCoords[1]), "", "");
+					newPlace.setAudioLocation(audioLoc);
+					newPlace.setNote(commentBlock.getText().toString());
+					newPlace.setVideoLocation(videoLoc);
+					newPlace.setPhotoLocation(getRealPathFromURI(imageUri));
+					Log.e(TAG,newPlace.toString());
+					PropertiesUtility.writePlaceToFile(v.getContext(), newPlace);
+					Intent intent = new Intent(v.getContext(),
+							ActivityMap.class);
+					Places.getItems().add(newPlace);
+					startActivity(intent);
+					finish();
+				} else {
+					Intent intent = new Intent(v.getContext(),
+							MainActivity.class);
+					startActivityForResult(intent, 1);
+				}
 			}
 		});
 
@@ -99,8 +114,8 @@ public class SavePlace extends Activity {
 						v.getResources().getString(R.string.rec_start_button))) {
 					recBt.setText(v.getResources().getString(
 							R.string.rec_stop_button));
-					mRecorder = AudioUtility.getMediaRecorder(); 
-					audioLoc = 	AudioUtility.startRecording(mRecorder);					
+					mRecorder = AudioUtility.getMediaRecorder();
+					audioLoc = AudioUtility.startRecording(mRecorder);
 				} else {
 					recBt.setText(v.getResources().getString(
 							R.string.rec_start_button));
@@ -122,6 +137,12 @@ public class SavePlace extends Activity {
 							R.string.rec_play_button));
 					AudioUtility.stopPlaying(mPlayer);
 				}
+
+			}
+		});
+
+		recordVideo.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
 
 			}
 		});
@@ -164,5 +185,16 @@ public class SavePlace extends Activity {
 		return cursor.getString(column_index);
 	}
 
-	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == 1) {
+			if (resultCode == RESULT_OK) {
+				this.currentCoordinates[0] = data.getIntExtra("lag", Integer.MAX_VALUE);
+				this.currentCoordinates[1] = data.getIntExtra("lon", Integer.MAX_VALUE);
+			}
+			if (resultCode == RESULT_CANCELED) {
+				return;
+			}
+		}
+	}
 }

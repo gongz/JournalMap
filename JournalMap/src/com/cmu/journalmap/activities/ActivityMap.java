@@ -1,5 +1,6 @@
 package com.cmu.journalmap.activities;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -59,7 +60,7 @@ public class ActivityMap extends MapActivity {
 		mapView.getController().setZoom(5);
 		Drawable marker = getResources().getDrawable(R.drawable.map_pin);
 		if (mapPins == null) {			
-			mapPins = new GoalLocationOverLay(marker, mapView, isTapAllowed());
+			mapPins = new GoalLocationOverLay(marker, mapView, isTapAllowed(),this);
 		} else {
 			mapPins.redraw();
 		}
