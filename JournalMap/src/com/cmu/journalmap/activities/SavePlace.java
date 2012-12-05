@@ -9,6 +9,7 @@ import com.google.android.maps.GeoPoint;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -37,9 +38,7 @@ public class SavePlace extends Activity {
 		commentBlock = (EditText) findViewById(R.id.etComments);
 		recordAudio = (Button) findViewById(R.id.bRecButton);
 		recordVideo = (Button) findViewById(R.id.bVideoButton);
-
 		ImageView placePic = (ImageView) findViewById(R.id.ivPlacePic);
-
 		// Get intent, action and MIME type
 		Intent intent = getIntent();
 		String action = intent.getAction();
@@ -55,33 +54,26 @@ public class SavePlace extends Activity {
 
 		Log.e("SAVEPLACE", "placePhotoPath: " + imageUri.toString());
 		if (placePic != null) {
-			placePic.setImageURI(imageUri);
+			Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(
+					getRealPathFromURI(imageUri), 400, 400);
+			placePic.setImageBitmap(ThumbImage);
 		}
 
 		savePlace.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-
-				//Here~~ Kathy, we need the exif info
-				//Don't create my house on the ocean.
 				String picPath = getRealPathFromURI(imageUri);
 				System.out.printf("Path is:", picPath);
 				int[] tempCoords = PictureUtility.getCoordsFromPhoto(picPath);
-				newPlace = new Place(new GeoPoint(tempCoords[0], tempCoords[1]),
-						"", "");
+				newPlace = new Place(
+						new GeoPoint(tempCoords[0], tempCoords[1]), "", "");
 				newPlace.setPhotoLocation(getRealPathFromURI(imageUri));
-				//newPlace.setAudioLocation();
-				//newPlace.setVideoLocation();
-				
-				
-			    newPlace.setNote(commentBlock.getText().toString());
-			    
-			    PropertiesUtility pu = new PropertiesUtility();
-			    pu.writePlaceToFile(v.getContext(), newPlace);
-
+				// newPlace.setAudioLocation();
+				// newPlace.setVideoLocation();
+				newPlace.setNote(commentBlock.getText().toString());
+				PropertiesUtility.writePlaceToFile(v.getContext(), newPlace);
 				Intent intent = new Intent(v.getContext(), ActivityMap.class);
-				//Please check class: Places
+				// Please check class: Places
 				Places.getItems().add(newPlace);
-				
 				startActivity(intent);
 			}
 		});
@@ -99,8 +91,7 @@ public class SavePlace extends Activity {
 				String picPath = getRealPathFromURI(imageUri);
 				System.out.printf("Path is:", picPath);
 				int[] tempCoords = PictureUtility.getCoordsFromPhoto(picPath);
-				if ((tempCoords[0] == 0)
-						|| (tempCoords[1] == 0)) {
+				if ((tempCoords[0] == 0) || (tempCoords[1] == 0)) {
 					// EXIF Coords were NOT found
 					Log.i("PictureUtlity", "EXIF Coords were NOT found");
 

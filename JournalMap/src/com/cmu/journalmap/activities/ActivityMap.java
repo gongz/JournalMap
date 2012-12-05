@@ -39,12 +39,11 @@ public class ActivityMap extends MapActivity {
 		mapView = (MapView) findViewById(R.id.mapView);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(true);
-
 		currentLocationOverLay = new MyLocationOverlay(this, mapView);
 		currentLocationOverLay.enableMyLocation();
+		Places.setItems(PropertiesUtility.propertiesToPlaceList(mapView.getContext()));
 		currentLocationOverLay.runOnFirstFix(new Runnable() {
 			public void run() {
-				Places.setItems(PropertiesUtility.propertiesToPlaceList(mapView.getContext()));
 				if (Places.getItems().size() > 0) {
 					mapView.getController().animateTo(
 							Places.getItems().get(Places.getItems().size() - 1)
@@ -53,15 +52,13 @@ public class ActivityMap extends MapActivity {
 					mapView.getController().animateTo(
 							currentLocationOverLay.getMyLocation());
 				}
-
 			}
 		});
 
 		mapView.getOverlays().add(currentLocationOverLay);
 		mapView.getController().setZoom(5);
 		Drawable marker = getResources().getDrawable(R.drawable.map_pin);
-		if (mapPins == null) {
-			// Log.e(TAG,"is Null");
+		if (mapPins == null) {			
 			mapPins = new GoalLocationOverLay(marker, mapView, isTapAllowed());
 		} else {
 			mapPins.redraw();

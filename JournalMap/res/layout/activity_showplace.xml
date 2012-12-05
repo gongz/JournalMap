@@ -5,7 +5,7 @@
     android:padding="25dp" >
 
     <ImageView
-        android:id="@+id/ivPlacePic"
+        android:id="@+id/ShowPlacePic"
         android:layout_width="fill_parent"
         android:layout_height="200dp"
         android:contentDescription="@string/img_desc"

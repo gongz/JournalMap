@@ -139,7 +139,7 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 		return (new GeoPoint((int) (lat * 1000000.0), (int) (lon * 1000000.0)));
 	}
 
-	private void createBubble(Place item) {
+	private void createBubble(final Place item) {
 		LayoutInflater inflater = (LayoutInflater) mapView.getContext()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -147,7 +147,11 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 				com.cmu.journalmap.activities.R.layout.bubble, mapView, false);
 		_bubbleLayout.setOnClickListener(new OnClickListener(){
 			public void onClick(View view) {
-				Intent intent = new Intent(view.getContext(), ShowPlace.class);				
+				Intent intent = new Intent(view.getContext(), ShowPlace.class);
+				intent.putExtra("pictureLoc", item.getPhotoLocation());
+				intent.putExtra("audioLoc", item.getAudioLocation());
+				intent.putExtra("videoLoc", item.getVideoLocation());
+				intent.putExtra("note", item.getNote());
 				view.getContext().startActivity(intent);				
 			}			
 		});

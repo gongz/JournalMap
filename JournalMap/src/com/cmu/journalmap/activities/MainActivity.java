@@ -45,7 +45,6 @@ public class MainActivity extends Activity {
 		OnClickListener listener = new OnClickListener() {
 			public void onClick(View view) {
 				// show MapActivity
-
 				Intent intent = new Intent(view.getContext(), ActivityMap.class);
 				intent.putExtra("isTapAllowed", tap);
 				startActivity(intent);
