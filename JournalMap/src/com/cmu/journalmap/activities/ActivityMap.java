@@ -1,19 +1,19 @@
 package com.cmu.journalmap.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-
 import com.cmu.journalmap.map.GoalLocationOverLay;
-import com.cmu.journalmap.models.Place;
 import com.cmu.journalmap.storage.Places;
 import com.cmu.journalmap.utilities.PropertiesUtility;
-import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
@@ -25,11 +25,12 @@ public class ActivityMap extends MapActivity {
 	private static MyLocationOverlay currentLocationOverLay;
 	private GoalLocationOverLay mapPins;
 	private boolean isTapAllowed = false;
-
+	private int tap = 0;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTapAllowed(getIntent().getIntExtra("isTapAllowed", 0));
+		this.tap = getIntent().getIntExtra("isTapAllowed", 0);
+		setTapAllowed(tap);
 		setContentView(R.layout.activity_map);
 		setUpControlUI();
 		populateMap();
@@ -65,6 +66,21 @@ public class ActivityMap extends MapActivity {
 			mapPins.redraw();
 		}
 		mapView.getOverlays().add(mapPins);
+		if (tap == 2) {	
+			LocationManager lm = (LocationManager) getSystemService(mapView.getContext().LOCATION_SERVICE);
+			Location lastKnownLoc = lm
+					.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			if (lastKnownLoc != null) {
+				int longTemp = (int) (lastKnownLoc.getLongitude() * 1000000);
+				int latTemp = (int) (lastKnownLoc.getLatitude() * 1000000);
+				Intent returnIntent = new Intent();
+				returnIntent.putExtra("lag", latTemp);
+				returnIntent.putExtra("lon", longTemp);
+				setResult(Activity.RESULT_OK, returnIntent);
+				finish();
+			}
+
+		}
 
 	}
 

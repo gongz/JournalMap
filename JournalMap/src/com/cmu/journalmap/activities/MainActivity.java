@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+
 /**
  * @author Kathy and Archer
  * 
@@ -25,14 +26,10 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		but_pin = (Button) findViewById(R.id.main_button_add_loc_pin);
-		but_exif = (Button) findViewById(R.id.main_button_add_loc_exif);
-		but_nfc = (Button) findViewById(R.id.main_button_add_loc_nfc);
 		but_gps = (Button) findViewById(R.id.main_button_add_loc_gps);
 
 		but_pin.setOnClickListener(getOnClickListener(1));
-		but_exif.setOnClickListener(getOnClickListener(0));
-		but_nfc.setOnClickListener(getOnClickListener(0));
-		but_gps.setOnClickListener(getOnClickListener(0));
+		but_gps.setOnClickListener(getOnClickListener(2));
 	}
 
 	@Override
@@ -47,7 +44,6 @@ public class MainActivity extends Activity {
 				// show MapActivity
 				Intent intent = new Intent(view.getContext(), ActivityMap.class);
 				intent.putExtra("isTapAllowed", tap);
-				//startActivity(intent);
 				startActivityForResult(intent,1);
 			}
 		};

@@ -1,7 +1,5 @@
 package com.cmu.journalmap.activities;
 
-import java.io.IOException;
-
 import com.cmu.journalmap.models.Place;
 import com.cmu.journalmap.storage.Places;
 import com.cmu.journalmap.utilities.AudioUtility;
@@ -11,20 +9,19 @@ import com.google.android.maps.GeoPoint;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
+
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -84,7 +81,7 @@ public class SavePlace extends Activity {
 						.isCoordinatesValid(PictureUtility
 								.getCoordsFromPhoto(picPath)) ? PictureUtility
 						.getCoordsFromPhoto(picPath) : currentCoordinates;
-				
+
 				if (PictureUtility.isCoordinatesValid(tempCoords)) {
 					newPlace = new Place(new GeoPoint(tempCoords[0],
 							tempCoords[1]), "", "");
@@ -92,7 +89,7 @@ public class SavePlace extends Activity {
 					newPlace.setNote(commentBlock.getText().toString());
 					newPlace.setVideoLocation(videoLoc);
 					newPlace.setPhotoLocation(getRealPathFromURI(imageUri));
-					Log.e(TAG,newPlace.toString());
+					Log.e(TAG, newPlace.toString());
 					PropertiesUtility.writePlaceToFile(v.getContext(), newPlace);
 					Intent intent = new Intent(v.getContext(),
 							ActivityMap.class);
@@ -189,8 +186,10 @@ public class SavePlace extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 1) {
 			if (resultCode == RESULT_OK) {
-				this.currentCoordinates[0] = data.getIntExtra("lag", Integer.MAX_VALUE);
-				this.currentCoordinates[1] = data.getIntExtra("lon", Integer.MAX_VALUE);
+				this.currentCoordinates[0] = data.getIntExtra("lag",
+						Integer.MAX_VALUE);
+				this.currentCoordinates[1] = data.getIntExtra("lon",
+						Integer.MAX_VALUE);
 			}
 			if (resultCode == RESULT_CANCELED) {
 				return;
