@@ -10,6 +10,7 @@ import com.cmu.journalmap.utilities.AudioUtility;
 import com.cmu.journalmap.utilities.NfcUtility;
 import com.cmu.journalmap.utilities.PictureUtility;
 import com.cmu.journalmap.utilities.PropertiesUtility;
+import com.cmu.journalmap.utilities.VideoUtility;
 import com.google.android.maps.GeoPoint;
 
 import android.app.Activity;
@@ -34,6 +35,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class SavePlace extends Activity {
 	private final static String TAG = "SavePlace";
@@ -45,6 +47,7 @@ public class SavePlace extends Activity {
 	private String audioLoc = "";
 
 	private Button recordVideo = null;
+	private Button playVideo = null;
 	private String videoLoc = "";
 	private Uri imageUri = null;
 	private Place newPlace = null;
@@ -163,24 +166,40 @@ public class SavePlace extends Activity {
 
 		playAudio.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Button playBt = (Button) v;
-				if (playBt.getText().equals(
+				if (playAudio.getText().equals(
 						v.getResources().getString(R.string.rec_play_button))) {
-					playBt.setText(v.getResources().getString(
-							R.string.rec_stop_button));
-					mPlayer = AudioUtility.startPlaying(audioLoc);
+					if (audioLoc.length() > 5) {
+						playAudio.setText(v.getResources().getString(
+								R.string.rec_stop_button));
+						mPlayer = AudioUtility.startPlaying(audioLoc);
+					}
 				} else {
-					playBt.setText(v.getResources().getString(
+					playAudio.setText(v.getResources().getString(
 							R.string.rec_play_button));
 					AudioUtility.stopPlaying(mPlayer);
 				}
-
 			}
 		});
 
 		recordVideo.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+				Uri fileUri = VideoUtility
+						.getOutputMediaFileUri(VideoUtility.MEDIA_TYPE_VIDEO);
+				intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+				intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+				startActivityForResult(intent,
+						VideoUtility.CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
+			}
+		});
 
+		playVideo.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if (videoLoc.length() > 5) {
+					Intent intent = new Intent(v.getContext(), PlayVideo.class);
+					intent.putExtra("videoLoc", videoLoc);
+					startActivityForResult(intent, 0);
+				}
 			}
 		});
 
@@ -217,7 +236,6 @@ public class SavePlace extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 1) {
 			if (resultCode == RESULT_OK) {
-
 				this.currentCoordinates[0] = data.getIntExtra("lag",
 						Integer.MAX_VALUE);
 				this.currentCoordinates[1] = data.getIntExtra("lon",
@@ -226,16 +244,42 @@ public class SavePlace extends Activity {
 			if (resultCode == RESULT_CANCELED) {
 				return;
 			}
+
+		} else if (requestCode == VideoUtility.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+			if (resultCode == RESULT_OK) {
+				// Image captured and saved to fileUri specified in the Intent
+				Toast.makeText(this, "Image saved to:\n" + data.getData(),
+						Toast.LENGTH_LONG).show();
+				
+			} else if (resultCode == RESULT_CANCELED) {
+				// User cancelled the image capture
+			} else {
+				// Image capture failed, advise user
+			}
+		}
+
+		else if (requestCode == VideoUtility.CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
+			if (resultCode == RESULT_OK) {
+				// Video captured and saved to fileUri specified in the Intent
+				Toast.makeText(this, "Video saved to:\n" + data.getData(),
+						Toast.LENGTH_LONG).show();
+				this.videoLoc = VideoUtility.getRealPathFromURI(data.getData(),SavePlace.this);
+			} else if (resultCode == RESULT_CANCELED) {
+				// User cancelled the video capture
+			} else {
+				// Video capture failed, advise user
+			}
 		}
 	}
 
-	public void connectViewElements() {
+	private void connectViewElements() {
 		savePlace = (Button) findViewById(R.id.bSaveButton);
 		commentBlock = (EditText) findViewById(R.id.etComments);
 		recordAudio = (Button) findViewById(R.id.bRecButton);
 		playAudio = (Button) findViewById(R.id.bPlayButton);
 		recordVideo = (Button) findViewById(R.id.bVideoButton);
 		placePic = (ImageView) findViewById(R.id.ivPlacePic);
+		playVideo = (Button) findViewById(R.id.bVideoPlayButton);
 	}
 
 	public void getPhotoInfo(String thisType, Intent thisIntent) {
@@ -291,4 +335,6 @@ public class SavePlace extends Activity {
 		}
 		// process the msgs array
 	}
+	
+	
 }

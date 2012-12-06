@@ -5,6 +5,7 @@ import com.cmu.journalmap.utilities.AudioUtility;
 import com.cmu.journalmap.utilities.PictureUtility;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -48,18 +49,27 @@ public class ShowPlace extends Activity {
 		
 		playAudio.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Button playBt = (Button) v;
-				if (playBt.getText().equals(
+				if (playAudio.getText().equals(
 						v.getResources().getString(R.string.rec_play_button))) {
-					playBt.setText(v.getResources().getString(
+					playAudio.setText(v.getResources().getString(
 							R.string.rec_stop_button));					
 					mPlayer = AudioUtility.startPlaying(getIntent().getStringExtra("audioLoc"));
 				} else {
-					playBt.setText(v.getResources().getString(
+					playAudio.setText(v.getResources().getString(
 							R.string.rec_play_button));
 					AudioUtility.stopPlaying(mPlayer);
 				}
 
+			}
+		});
+		
+		playVideo.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				if (getIntent().getStringExtra("videoLoc").length() > 5) {
+					Intent intent = new Intent(v.getContext(), PlayVideo.class);
+					intent.putExtra("videoLoc", getIntent().getStringExtra("videoLoc"));
+					startActivityForResult(intent, 0);
+				}
 			}
 		});
 	}	
