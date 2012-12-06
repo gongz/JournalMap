@@ -24,16 +24,30 @@
         <uses-library android:name="com.google.android.maps" />
 
         <activity
+            android:name=".Splash"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.cmu.journalmap.activities.MainActivity"
             android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="com.cmu.journalmap.activities.MAINACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.cmu.journalmap.activities.ActivityMap"
             android:configChanges="orientation" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.ACTIVITYMAP" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
@@ -47,11 +61,12 @@
                 <data android:mimeType="image/*" />
             </intent-filter>
             <intent-filter>
-    <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-    <category android:name="android.intent.category.DEFAULT"/>
-    <data android:mimeType="text/plain" />
-</intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.cmu.journalmap.activities.ShowPlace"
