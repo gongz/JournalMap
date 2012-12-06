@@ -99,6 +99,7 @@ public class SavePlace extends Activity {
 					PropertiesUtility.writePlaceToFile(v.getContext(), newPlace);
 					Intent intent = new Intent(v.getContext(),
 							ActivityMap.class);
+					Log.e(TAG, origin+"1");
 					intent.putExtra("origin",origin);
 					Places.getItems().add(newPlace);
 					startActivity(intent);
@@ -124,11 +125,14 @@ public class SavePlace extends Activity {
 						Intent intent3 = new Intent(v.getContext(),
 								ActivityMap.class);
 						Places.getItems().add(newPlace);
+						Log.e(TAG, origin+"1");
+						intent3.putExtra("origin",origin);
 						startActivity(intent3);
 						finish();
 					} else {
 						Intent intent2 = new Intent(v.getContext(),
 								MainActivity.class);
+						intent2.putExtra("origin",origin);
 						startActivityForResult(intent2, 1);
 					}
 					break;

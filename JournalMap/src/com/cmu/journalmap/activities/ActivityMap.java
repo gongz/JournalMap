@@ -96,7 +96,7 @@ public class ActivityMap extends MapActivity {
 	private void setUpControlUI() {
 		Button bt_back = (Button) findViewById(R.id.map_button_back);
 		Button bt_next = (Button) findViewById(R.id.map_button_next);
-		if (origin == 1)
+		if (origin == 0)
 			bt_next.setVisibility(View.GONE);
 		bt_back.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
