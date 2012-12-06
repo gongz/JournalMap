@@ -173,4 +173,32 @@ public class PropertiesUtility
 		return placeList;
 	}
 
+	public static String getProperty(Context c, String propName)
+	{
+		String propValue = null;
+		
+		Properties props = new Properties();
+		FileInputStream in = null;
+		
+		try
+		{
+			// in = new FileInputStream(FILENAME);
+			in = c.openFileInput(FILENAME);
+			props.load(in);
+		} catch (FileNotFoundException e)
+		{
+			// TODO Auto-generated catch block
+
+			// e.printStackTrace();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// Place(GeoPoint point, String title, String snippet)
+		propValue = props.getProperty(propName);
+		
+		return propValue;
+	}
+	
 }

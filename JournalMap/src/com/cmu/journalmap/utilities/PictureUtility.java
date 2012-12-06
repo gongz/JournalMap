@@ -1,15 +1,16 @@
 package com.cmu.journalmap.utilities;
 
-import java.io.File;
 import java.io.IOException;
 
 import com.google.android.maps.GeoPoint;
 
+import android.app.Activity;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ExifInterface;
-import android.os.Environment;
-import android.util.Log;
+import android.net.Uri;
+import android.provider.MediaStore;
 
 public class PictureUtility
 {
@@ -149,5 +150,17 @@ public class PictureUtility
 	}
 	public static boolean isCoordinatesValid(int in){
 		return (in>=-180*1000000 && in<=180*1000000);
+	}
+	
+	// Source:
+	// http://stackoverflow.com/questions/3401579/get-filename-and-path-from-uri-from-mediastore
+	public static String getRealPathFromURI(Uri contentUri, Activity act) {
+		String[] proj = { MediaStore.Images.Media.DATA };
+		
+		Cursor cursor = act.managedQuery(contentUri, proj, null, null, null);
+		int column_index = cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		return cursor.getString(column_index);
 	}
 }
