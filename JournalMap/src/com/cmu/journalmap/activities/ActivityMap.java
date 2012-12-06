@@ -27,10 +27,12 @@ public class ActivityMap extends MapActivity {
 	private GoalLocationOverLay mapPins;
 	private boolean isTapAllowed = false;
 	private int tap = 0;
+	private int origin = -1;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.tap = getIntent().getIntExtra("isTapAllowed", 0);
+		this.origin = getIntent().getIntExtra("origin", -1);
 		setTapAllowed(tap);
 		setContentView(R.layout.activity_map);
 		setUpControlUI();
@@ -94,6 +96,8 @@ public class ActivityMap extends MapActivity {
 	private void setUpControlUI() {
 		Button bt_back = (Button) findViewById(R.id.map_button_back);
 		Button bt_next = (Button) findViewById(R.id.map_button_next);
+		if (origin == 1)
+			bt_next.setVisibility(View.GONE);
 		bt_back.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
 				// close MapActivity
@@ -102,7 +106,7 @@ public class ActivityMap extends MapActivity {
 		});
 		bt_next.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				if (mapPins.size() - 1 >= 0) {
+				if (mapPins.size() - 1 >= 0 && origin == 1) {
 					Intent returnIntent = new Intent();
 					returnIntent.putExtra("lag", ((Place) mapPins
 							.getItem(mapPins.size() - 1)).getGeoLocation()

@@ -99,6 +99,7 @@ public class SavePlace extends Activity {
 					PropertiesUtility.writePlaceToFile(v.getContext(), newPlace);
 					Intent intent = new Intent(v.getContext(),
 							ActivityMap.class);
+					intent.putExtra("origin",origin);
 					Places.getItems().add(newPlace);
 					startActivity(intent);
 					finish();
