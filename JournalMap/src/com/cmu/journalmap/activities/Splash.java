@@ -27,7 +27,7 @@ public class Splash extends Activity{
 				}
 				finally
 				{
-					Intent openStartingPoint = new Intent("com.cmu.journalmap.activities.MAINACTIVITY");
+					Intent openStartingPoint = new Intent("com.cmu.journalmap.activities.STARTPAGE");
 					startActivity(openStartingPoint);
 				}
 			}
