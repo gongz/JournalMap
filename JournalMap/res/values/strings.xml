@@ -25,6 +25,8 @@
 	<string name="video_button">Add video note</string>
 	<string name="save_button">Save Place</string>
 	
+	<string name="view_map">View Map</string>
+	<string name="view_photos">View Photos</string>
 	
 	<string name="play_video_button">Play video note</string>
 	

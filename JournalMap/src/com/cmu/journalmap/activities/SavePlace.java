@@ -15,7 +15,6 @@ import com.google.android.maps.GeoPoint;
 import android.app.Activity;
 import android.content.Intent;
 
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
@@ -83,7 +82,7 @@ public class SavePlace extends Activity {
 			// String photoPath = getIntent().getStringExtra("placePhotoPath");
 			if (placePic != null) {
 				Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(
-						getRealPathFromURI(imageUri), 400, 400);
+						PictureUtility.getRealPathFromURI(imageUri, SavePlace.this), 400, 400);
 				placePic.setImageBitmap(ThumbImage);
 			}
 		}
@@ -106,7 +105,7 @@ public class SavePlace extends Activity {
 					finish();
 					break;
 				case 1: // photo
-					String picPath = getRealPathFromURI(imageUri);
+					String picPath = PictureUtility.getRealPathFromURI(imageUri, SavePlace.this);
 					int[] tempCoords = PictureUtility
 							.isCoordinatesValid(PictureUtility
 									.getCoordsFromPhoto(picPath)) ? PictureUtility
@@ -118,7 +117,7 @@ public class SavePlace extends Activity {
 						newPlace.setAudioLocation(audioLoc);
 						newPlace.setNote(commentBlock.getText().toString());
 						newPlace.setVideoLocation(videoLoc);
-						newPlace.setPhotoLocation(getRealPathFromURI(imageUri));
+						newPlace.setPhotoLocation(PictureUtility.getRealPathFromURI(imageUri, SavePlace.this));
 						Log.e(TAG, newPlace.toString());
 						PropertiesUtility.writePlaceToFile(v.getContext(),
 								newPlace);
@@ -195,7 +194,7 @@ public class SavePlace extends Activity {
 
 			// check for EXIF data
 			try {
-				String picPath = getRealPathFromURI(imageUri);
+				String picPath = PictureUtility.getRealPathFromURI(imageUri, SavePlace.this);
 				System.out.printf("Path is:", picPath);
 				int[] tempCoords = PictureUtility.getCoordsFromPhoto(picPath);
 				if ((tempCoords[0] == 0) || (tempCoords[1] == 0)) {
@@ -212,16 +211,7 @@ public class SavePlace extends Activity {
 		}
 	}
 
-	// Source:
-	// http://stackoverflow.com/questions/3401579/get-filename-and-path-from-uri-from-mediastore
-	public String getRealPathFromURI(Uri contentUri) {
-		String[] proj = { MediaStore.Images.Media.DATA };
-		Cursor cursor = managedQuery(contentUri, proj, null, null, null);
-		int column_index = cursor
-				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-		cursor.moveToFirst();
-		return cursor.getString(column_index);
-	}
+
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
