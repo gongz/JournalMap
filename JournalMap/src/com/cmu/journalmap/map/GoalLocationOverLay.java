@@ -85,7 +85,7 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 	protected boolean onTap(int index) {
 		Place item = Places.getItems().get(index);
 		if (_bubbleLayout == null) {
-			if (item.getPhotoLocation()!=null) {
+			if (item.getGeoLocation()!=null) {
 				createBubble(item);
 			} else {
 				Intent returnIntent = new Intent();

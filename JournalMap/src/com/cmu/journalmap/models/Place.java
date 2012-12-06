@@ -5,10 +5,10 @@ import com.google.android.maps.OverlayItem;
 
 public class Place extends OverlayItem {
 
-	private String photoLocation = null;
-	private String note = null;
-	private String audioLocation = null;
-	private String videoLocation = null;
+	private String photoLocation = "";
+	private String note = "";
+	private String audioLocation = "";
+	private String videoLocation = "";
 	private GeoPoint geoLocation = null;
 
 	public Place(GeoPoint point, String title, String snippet) {

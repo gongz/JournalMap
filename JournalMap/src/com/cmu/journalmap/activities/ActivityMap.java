@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import com.cmu.journalmap.map.GoalLocationOverLay;
+import com.cmu.journalmap.models.Place;
 import com.cmu.journalmap.storage.Places;
 import com.cmu.journalmap.utilities.PropertiesUtility;
 import com.google.android.maps.MapActivity;
@@ -97,6 +98,21 @@ public class ActivityMap extends MapActivity {
 			public void onClick(View view) {
 				// close MapActivity
 				finish();
+			}
+		});
+		bt_next.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				if (mapPins.size() - 1 >= 0) {
+					Intent returnIntent = new Intent();
+					returnIntent.putExtra("lag", ((Place) mapPins
+							.getItem(mapPins.size() - 1)).getGeoLocation()
+							.getLatitudeE6());
+					returnIntent.putExtra("lon", ((Place) mapPins
+							.getItem(mapPins.size() - 1)).getGeoLocation()
+							.getLongitudeE6());
+					setResult(Activity.RESULT_OK, returnIntent);
+					finish();
+				}
 			}
 		});
 	}
