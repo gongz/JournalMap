@@ -13,6 +13,8 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -21,18 +23,19 @@ import android.widget.TextView;
 
 public class PhotoGallery extends Activity
 {
-	private LinearLayout m_LinLayout;
-	private ScrollView m_Scroll;
-	private TextView m_TxtCol;
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-
-		m_LinLayout = new LinearLayout(this);
-		m_LinLayout.setOrientation(LinearLayout.VERTICAL);
 		
+		setContentView(R.layout.activity_photogallery);
+		
+		ScrollView scroll = (ScrollView) this.findViewById(R.id.svPhotoGallery);
+		LinearLayout linlayout = (LinearLayout) this.findViewById(R.id.llPhotoGallery);
+
 		int numOfEntries = 0;
 
 		// images
@@ -42,69 +45,50 @@ public class PhotoGallery extends Activity
 			numOfEntries = Integer.parseInt(strNumOfEntries);
 		}
 		List<ImageView> ivList = new ArrayList<ImageView>();
+		List<TextView> tvList = new ArrayList<TextView>();
 		
 		for (int i = 0; i<numOfEntries; i++)
 		{
 			ImageView imgView = new ImageView(this);
+			TextView txtView = new TextView(this);
 			if (imgView != null) {
 				String photoPath = PropertiesUtility.getProperty(getApplicationContext(), "photoLocation"+i);
-				Uri tempUri = Uri.parse(new File(photoPath).toString());
+				String note = PropertiesUtility.getProperty(getApplicationContext(), "note"+i);
+				//Uri tempUri = Uri.parse(new File(photoPath).toString());
 				
+//				Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(
+//						PictureUtility.getRealPathFromURI(tempUri, this), 100, 100);
 				Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(
-						PictureUtility.getRealPathFromURI(tempUri, this), 100, 100);
+						photoPath, 100, 100);
 				imgView.setImageBitmap(ThumbImage);
+				txtView.setText(note);
+				
 			}
-			imgView.setPadding(5, 5, 0, 0);
+			//imgView.setPadding(5, 5, 0, 0);
 			ivList.add(imgView);
+			tvList.add(txtView);
 		}
-
-//		m_Img2 = new ImageView(this);
-//		m_Img2.setImageResource(R.drawable.jm_launcher);
-//		m_Img2.setPadding(5, 5, 0, 0);
-//
-//		m_Img3 = new ImageView(this);
-//		m_Img3.setImageResource(R.drawable.jm_launcher);
-//		m_Img3.setPadding(5, 5, 0, 0);
-//
-//		m_Img4 = new ImageView(this);
-//		m_Img4.setImageResource(R.drawable.jm_launcher);
-//		m_Img4.setPadding(5, 5, 0, 0);
-//
-//		m_Img5 = new ImageView(this);
-//		m_Img5.setImageResource(R.drawable.jm_launcher);
-//		m_Img5.setPadding(5, 5, 0, 0);
-//
-//		m_Img6 = new ImageView(this);
-//		m_Img6.setImageResource(R.drawable.jm_launcher);
-//		m_Img6.setPadding(5, 5, 0, 0);
-
-		m_TxtCol = new TextView(this);
-		m_TxtCol.setText("Text comes here.");
-		m_TxtCol.setPadding(15, 5, 0, 0);
-		m_TxtCol.setTextColor(Color.parseColor("#FF0000"));
-		// You can create other controls as well.
-
+		
+//		TextView tv1 = new TextView(this);
+//		tv1.setText("This is tv1");
+//		linlayout.addView(tv1);
+		
 		Iterator<ImageView> itr = ivList.iterator();
+		Iterator<TextView> tItr = tvList.iterator();
 		while(itr.hasNext()) {
+			 LinearLayout llLine = new LinearLayout(this);
 	         ImageView element = itr.next();
-	         m_LinLayout.addView(element, new LayoutParams(LayoutParams.FILL_PARENT,
+	         TextView tvElement = tItr.next();
+	         llLine.addView(element);
+	         llLine.addView(tvElement);
+	         linlayout.addView(llLine, new LayoutParams(LayoutParams.FILL_PARENT,
 				LayoutParams.WRAP_CONTENT));
 	      }
 		
 
-		m_LinLayout.addView(m_TxtCol, new LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-		// If you have other controls, you should add them here.
 
-		m_Scroll = new ScrollView(this);
-		m_Scroll.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.FILL_PARENT));
-		m_Scroll.addView(m_LinLayout, new LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 
-		// addContentView(m_Scroll, new LayoutParams(LayoutParams.FILL_PARENT,
-		// LayoutParams.WRAP_CONTENT));
 
-		setContentView(m_Scroll);
 	}
+
 }
