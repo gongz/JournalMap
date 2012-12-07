@@ -1,6 +1,6 @@
 package com.cmu.journalmap.activities;
 
-import com.cmu.journalmap.models.Place;
+
 import com.cmu.journalmap.utilities.AudioUtility;
 import com.cmu.journalmap.utilities.PictureUtility;
 
@@ -8,8 +8,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
-import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,9 +19,7 @@ public class ShowPlace extends Activity {
 	private Button backButton = null;
 	private TextView commentBlock = null;
 	private Button playAudio = null;
-	private Button playVideo = null;
-	private Uri imageUri = null;
-	private Place newPlace = null;
+	private Button playVideo = null;	
 	private ImageView placePic = null;	
 	private MediaPlayer mPlayer = null;
 

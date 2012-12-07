@@ -11,6 +11,7 @@ import java.util.Properties;
 import com.cmu.journalmap.models.Place;
 import com.google.android.maps.GeoPoint;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -20,6 +21,7 @@ public class PropertiesUtility
 	static String FILENAME = "journalmap.properties";
 	static Properties properties = new Properties();
 
+	@SuppressLint("WorldReadableFiles")
 	public static void writePlaceToFile(Context c, Place p) {
 		// check to see if properties file exists
 		FileInputStream fis;

@@ -13,7 +13,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 public class VideoUtility {
-	private final static String TAG = "VideoUtility";
+	//private final static String TAG = "VideoUtility";
 	public static final int MEDIA_TYPE_IMAGE = 1;
 	public static final int MEDIA_TYPE_VIDEO = 2;
 	public static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;

@@ -17,8 +17,6 @@ import android.widget.Button;
 public class MainActivity extends Activity {
 	public static final String TAG = MainActivity.class.getName();
 	private Button but_pin;
-	private Button but_exif;
-	private Button but_nfc;
 	private Button but_gps;
 	private int origin = -1;
 

@@ -1,16 +1,14 @@
 package com.cmu.journalmap.map;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+
 import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,10 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
-
-import com.cmu.journalmap.activities.ActivityMap;
 import com.cmu.journalmap.activities.R;
-import com.cmu.journalmap.activities.SavePlace;
 import com.cmu.journalmap.activities.ShowPlace;
 import com.cmu.journalmap.models.Place;
 import com.cmu.journalmap.storage.Places;
@@ -34,7 +29,7 @@ import com.google.android.maps.OverlayItem;
 
 public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 
-	private static final String TAG = "GoalLocationOverLay";
+	//private static final String TAG = "GoalLocationOverLay";
 	private MapView mapView;
 	private RelativeLayout _bubbleLayout;
 	private boolean isTapAllowed = false;

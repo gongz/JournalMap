@@ -1,5 +1,7 @@
 package com.cmu.journalmap.activities;
 
+import com.cmu.journalmap.service.CheckService;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,11 +22,11 @@ public class StartPage extends Activity
 		setContentView(R.layout.activity_mainscreen);
 		viewMapButton = (Button) findViewById(R.id.viewMapButton);
 		viewPhotosButton = (Button) findViewById(R.id.viewPhotosButton);
-		
+		startService(new Intent(StartPage.this,CheckService.class));
 		viewMapButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				try{
-					Class ourClass = Class.forName("com.cmu.journalmap.activities.ActivityMap");
+					Class<?> ourClass = Class.forName("com.cmu.journalmap.activities.ActivityMap");
 					Intent ourIntent = new Intent(StartPage.this, ourClass);
 					startActivity(ourIntent);
 					}catch (ClassNotFoundException e){
@@ -36,7 +38,7 @@ public class StartPage extends Activity
 		viewPhotosButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				try{
-					Class ourClass = Class.forName("com.cmu.journalmap.activities.PhotoGallery");
+					Class<?> ourClass = Class.forName("com.cmu.journalmap.activities.PhotoGallery");
 					Intent ourIntent = new Intent(StartPage.this, ourClass);
 					startActivity(ourIntent);
 					}catch (ClassNotFoundException e){
@@ -45,6 +47,7 @@ public class StartPage extends Activity
 			}
 		});
 	}
+	
 	
 	
 }

@@ -2,9 +2,6 @@ package com.cmu.journalmap.activities;
 
 import android.os.Bundle;
 import android.app.Activity;
-import android.content.Intent;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -30,6 +27,7 @@ public class PlayVideo extends Activity {
 		vdDisplay = (VideoView) findViewById(R.id.videoDisplay);
 		vdDisplay.setMediaController(new MediaController(this));
 		vdDisplay.setVideoPath(getIntent().getStringExtra("videoLoc"));
+		vdDisplay.start();
 		but_back.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
 				finish();

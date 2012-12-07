@@ -1,16 +1,15 @@
 package com.cmu.journalmap.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import com.cmu.journalmap.map.GoalLocationOverLay;
 import com.cmu.journalmap.models.Place;
 import com.cmu.journalmap.storage.Places;
@@ -20,8 +19,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 
 public class ActivityMap extends MapActivity {
-	private static final String TAG = "MapActivity";
-	private static RelativeLayout mapLayout;
+	//private static final String TAG = "MapActivity";
 	private static MapView mapView;
 	private static MyLocationOverlay currentLocationOverLay;
 	private GoalLocationOverLay mapPins;
@@ -40,7 +38,6 @@ public class ActivityMap extends MapActivity {
 	}
 
 	private void populateMap() {
-		mapLayout = (RelativeLayout) findViewById(R.id.map_layout);
 		mapView = (MapView) findViewById(R.id.mapView);
 		mapView.setBuiltInZoomControls(true);
 		mapView.setSatellite(true);
@@ -70,7 +67,8 @@ public class ActivityMap extends MapActivity {
 		}
 		mapView.getOverlays().add(mapPins);
 		if (tap == 2) {	
-			LocationManager lm = (LocationManager) getSystemService(mapView.getContext().LOCATION_SERVICE);
+			mapView.getContext();
+			LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 			Location lastKnownLoc = lm
 					.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 			if (lastKnownLoc != null) {
