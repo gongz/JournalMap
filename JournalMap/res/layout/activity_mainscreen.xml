@@ -8,7 +8,7 @@
         android:id="@+id/imageView1"
         android:layout_width="fill_parent"
         android:layout_height="300dp"
-        android:src="@drawable/jm_launcher" />
+        android:src="@drawable/jm_logo" />
 
     
     <Button
