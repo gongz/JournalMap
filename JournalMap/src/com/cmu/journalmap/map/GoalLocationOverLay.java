@@ -172,9 +172,13 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 		//		.findViewById(com.cmu.journalmap.activities.R.id.locationName);
 		ImageView imgView = (ImageView) _bubbleLayout
 				.findViewById(R.id.locationImage);
+		if(item.getPhotoLocation().isEmpty()){
+			imgView.setImageResource(R.drawable.jm_logo100);
+		} else {
+			Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(item.getPhotoLocation(), 200 , 200);
+			imgView.setImageBitmap(ThumbImage);
+		}
 		
-		Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(item.getPhotoLocation(), 200 , 200);		
-		imgView.setImageBitmap(ThumbImage);
 		
 //		imgView.setImageDrawable(mapView.getContext().getResources()
 //				.getDrawable(R.drawable.jm_launcher));

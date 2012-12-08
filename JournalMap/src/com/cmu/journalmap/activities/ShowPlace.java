@@ -39,8 +39,15 @@ public class ShowPlace extends Activity {
 				finish();
 			}
 		});	
-		Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(getIntent().getStringExtra("pictureLoc"), 400 , 400);		
-		placePic.setImageBitmap(ThumbImage);		
+		
+		if(getIntent().getStringExtra("pictureLoc").isEmpty()){
+			placePic.setImageResource(R.drawable.jm_logo);
+		} else {
+			Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(getIntent().getStringExtra("pictureLoc"), 400 , 400);		
+			placePic.setImageBitmap(ThumbImage);	
+		}
+		
+			
 		commentBlock.setText(getIntent().getStringExtra("note"));
 		
 		if(getIntent().getStringExtra("audioLoc").length() <= 5){
