@@ -30,7 +30,8 @@
   		
         <activity
             android:name=".Splash"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +40,8 @@
         </activity>
         <activity
             android:name="com.cmu.journalmap.activities.MainActivity"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main" 
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.cmu.journalmap.activities.MAINACTIVITY" />
 
@@ -48,7 +50,8 @@
         </activity>
         <activity
             android:name="com.cmu.journalmap.activities.ActivityMap"
-            android:configChanges="orientation" >
+            android:configChanges="orientation"
+android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.ACTIVITYMAP" />
 
@@ -57,7 +60,8 @@
         </activity>
         <activity
             android:name="com.cmu.journalmap.activities.SavePlace"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait" >
             
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -77,7 +81,8 @@
         </activity>
         <activity
             android:name="com.cmu.journalmap.activities.ShowPlace"
-            android:configChanges="orientation" >
+            android:configChanges="orientation" 
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.cmu.journalmap.activities.PhotoGallery"
@@ -85,7 +90,8 @@
         </activity>
         <activity
             android:name="com.cmu.journalmap.activities.StartPage"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main" 
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.cmu.journalmap.activities.STARTPAGE" />
 
@@ -94,7 +100,8 @@
         </activity>
         <activity
             android:name="com.cmu.journalmap.activities.PlayVideo"
-            android:configChanges="orientation" >
+            android:configChanges="orientation" 
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 
