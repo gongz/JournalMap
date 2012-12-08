@@ -43,6 +43,13 @@ public class ShowPlace extends Activity {
 		placePic.setImageBitmap(ThumbImage);		
 		commentBlock.setText(getIntent().getStringExtra("note"));
 		
+		if(getIntent().getStringExtra("audioLoc").length() <= 5){
+			playAudio.setVisibility(View.GONE);
+		}
+		if(getIntent().getStringExtra("videoLoc").length() <= 5){
+			playVideo.setVisibility(View.GONE);
+		}
+		
 		playAudio.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				if (playAudio.getText().equals(

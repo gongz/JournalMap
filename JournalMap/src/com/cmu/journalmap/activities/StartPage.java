@@ -48,6 +48,10 @@ public class StartPage extends Activity
 		});
 	}
 	
-	
+	@Override
+	public void onDestroy() {
+		stopService(new Intent(StartPage.this,CheckService.class));
+		super.onDestroy();
+	}
 	
 }

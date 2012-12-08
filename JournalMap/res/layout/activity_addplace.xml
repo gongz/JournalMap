@@ -9,7 +9,7 @@
         android:layout_height="200dp"
         android:contentDescription="@string/img_desc"
         android:src="@drawable/jm_launcher" />
-	
+
     <TextView
         android:id="@+id/comments"
         android:layout_width="fill_parent"
@@ -23,15 +23,16 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textMultiLine" >
+
         <requestFocus />
     </EditText>
-	
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
-		
+
         <Button
             android:id="@+id/bRecButton"
             android:layout_width="wrap_content"
@@ -45,8 +46,7 @@
             android:layout_toRightOf="@id/bRecButton"
             android:text="@string/rec_play_button" />
     </RelativeLayout>
-	
-	
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
