@@ -29,7 +29,6 @@ public class PhotoGallery extends Activity
 		
 		setContentView(R.layout.activity_photogallery);
 		
-		ScrollView scroll = (ScrollView) this.findViewById(R.id.svPhotoGallery);
 		LinearLayout linlayout = (LinearLayout) this.findViewById(R.id.llPhotoGallery);
 
 		int numOfEntries = 0;
@@ -49,18 +48,24 @@ public class PhotoGallery extends Activity
 			TextView txtView = new TextView(this);
 			if (imgView != null) {
 				String photoPath = PropertiesUtility.getProperty(getApplicationContext(), "photoLocation"+i);
+				if (photoPath.isEmpty())
+				{
+					imgView.setImageResource(R.drawable.jm_logo100);
+					
+				}
+				else
+				{
+					Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(
+							photoPath, 100, 100);
+					imgView.setImageBitmap(ThumbImage);
+				}
 				String note = PropertiesUtility.getProperty(getApplicationContext(), "note"+i);
-				//Uri tempUri = Uri.parse(new File(photoPath).toString());
-				
-//				Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(
-//						PictureUtility.getRealPathFromURI(tempUri, this), 100, 100);
-				Bitmap ThumbImage = PictureUtility.decodeSampledBitmapFromPath(
-						photoPath, 100, 100);
-				imgView.setImageBitmap(ThumbImage);
+
+				imgView.setPadding(10, 5, 0, 10);
 				txtView.setText(note);
+				txtView.setPadding(10, 5, 0, 0);
 				
-			}
-			//imgView.setPadding(5, 5, 0, 0);
+			}	
 			ivList.add(imgView);
 			tvList.add(txtView);
 		}
