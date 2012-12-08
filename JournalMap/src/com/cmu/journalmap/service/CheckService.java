@@ -18,6 +18,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
 public class CheckService extends Service {
@@ -63,15 +64,19 @@ public class CheckService extends Service {
 			HashMap<String, Boolean> hashTable = new HashMap<String, Boolean>();
 			File dir = new File(imgPath);
 			String[] files = dir.list();
-
-			for (String s : files) {
-				String[] tmp = s.split("\\.");
-				if (tmp.length > 0) {
-					if (tmp[1].equals("jpg")) {
-
-						if (PictureUtility.isCoordinatesValid(PictureUtility
-								.getCoordsFromPhoto(imgPath + s))) {
+			int cntValid = 0;
+			if (files != null) {
+				for (String s : files) {
+					String[] tmp = s.split("\\.");
+					if (tmp.length > 0) {
+						if (tmp[1].equals("jpg")) {
 							hashTable.put(imgPath + s, false);
+							if (PictureUtility
+									.isCoordinatesValid(PictureUtility
+											.getCoordsFromPhoto(imgPath + s))) {
+								cntValid++;
+
+							}
 						}
 					}
 				}
@@ -87,24 +92,32 @@ public class CheckService extends Service {
 			for (int i = 0; i < numOfPlaces; i++) {
 				String tempPhotoLocation = PropertiesUtility.getProperty(
 						getApplicationContext(), "photoLocation" + i);
+				Log.e("ENTRY", tempPhotoLocation);
 				if (!tempPhotoLocation.isEmpty()) {
 					Boolean entry = hashTable.get(tempPhotoLocation);
 					if (entry != null) {
-						if (entry == false)
+						if (entry == false) {
+							Log.e("ENTRY", tempPhotoLocation);
 							hashTable.put(tempPhotoLocation, true);
+						}
 					}
 				}
 			}
 			StringBuffer buf = new StringBuffer();
+			int cntIn = 0;
+			int cntNotIn = 0;
 			for (Entry<String, Boolean> entry : hashTable.entrySet()) {
 				if (entry.getValue() == false) {
-					buf.append(entry.getKey()).append("\n");
+					cntNotIn++;
+					//buf.append(entry.getKey()).append("\n");
+				} else {
+					cntIn++;
+					//buf.append("in"+ entry.getKey()).append("\n");
 				}
 			}
-
-//			Toast toast = Toast.makeText(getApplicationContext(),
-//					buf.toString(), Toast.LENGTH_SHORT);
-//			toast.show();
+			buf.append("You have " + cntIn + " photos imported\n"+ cntValid +" out of "+ (cntNotIn+cntIn) + " photos with location data\n");
+			displayNotificationMessage(buf.toString());
+			
 		}
 	};
 

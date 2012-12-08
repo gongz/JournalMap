@@ -10,7 +10,7 @@
         android:layout_height="300dp"
         android:src="@drawable/jm_logo" />
 
-    
+
     <Button
         android:id="@+id/viewMapButton"
         android:layout_width="fill_parent"

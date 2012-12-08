@@ -169,8 +169,8 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 		_bubbleLayout.setLayoutParams(params);
 
 		// Locate the TextView
-		TextView locationNameText = (TextView) _bubbleLayout
-				.findViewById(com.cmu.journalmap.activities.R.id.locationName);
+		//TextView locationNameText = (TextView) _bubbleLayout
+		//		.findViewById(com.cmu.journalmap.activities.R.id.locationName);
 		ImageView imgView = (ImageView) _bubbleLayout
 				.findViewById(R.id.locationImage);
 		
@@ -180,7 +180,7 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 //		imgView.setImageDrawable(mapView.getContext().getResources()
 //				.getDrawable(R.drawable.jm_launcher));
 		// Set the Text
-		locationNameText.setText(item.getTitle()+" "+item.getSnippet());
+		//locationNameText.setText(item.getTitle()+" "+item.getSnippet());
 		// Add the view to the Map
 		mapView.addView(_bubbleLayout);
 
