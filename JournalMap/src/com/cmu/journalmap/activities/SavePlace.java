@@ -38,7 +38,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 public class SavePlace extends Activity {
-	private final static String TAG = "SavePlace";
+	//private final static String TAG = "SavePlace";
 	private Button savePlace = null;
 	private EditText commentBlock = null;
 
@@ -101,7 +101,6 @@ public class SavePlace extends Activity {
 					PropertiesUtility.writePlaceToFile(v.getContext(), newPlace);
 					Intent intent = new Intent(v.getContext(),
 							ActivityMap.class);
-					Log.e(TAG, origin+"1");
 					intent.putExtra("origin",origin);
 					Places.getItems().add(newPlace);
 					startActivity(intent);
@@ -121,13 +120,11 @@ public class SavePlace extends Activity {
 						newPlace.setNote(commentBlock.getText().toString());
 						newPlace.setVideoLocation(videoLoc);
 						newPlace.setPhotoLocation(PictureUtility.getRealPathFromURI(imageUri, SavePlace.this));
-						Log.e(TAG, newPlace.toString());
 						PropertiesUtility.writePlaceToFile(v.getContext(),
 								newPlace);
 						Intent intent3 = new Intent(v.getContext(),
 								ActivityMap.class);
 						Places.getItems().add(newPlace);
-						Log.e(TAG, origin+"1");
 						intent3.putExtra("origin",origin);
 						startActivity(intent3);
 						finish();
@@ -209,8 +206,6 @@ public class SavePlace extends Activity {
 		imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
 		if (imageUri != null) {
 			// Update UI to reflect image being shared
-			Log.i("Main", "Image is being shared");
-
 			// check for EXIF data
 			try {
 				String picPath = PictureUtility.getRealPathFromURI(imageUri, SavePlace.this);

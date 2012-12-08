@@ -1,6 +1,6 @@
 package com.cmu.journalmap.activities;
 
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,11 +10,7 @@ import com.cmu.journalmap.utilities.PropertiesUtility;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;

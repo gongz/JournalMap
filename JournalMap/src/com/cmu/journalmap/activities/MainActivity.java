@@ -3,12 +3,11 @@ package com.cmu.journalmap.activities;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
 
 /**
  * @author Kathy and Archer
@@ -25,7 +24,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		this.origin = getIntent().getIntExtra("origin", -1);
-		Log.e(TAG,origin+"");
 		but_pin = (Button) findViewById(R.id.main_button_add_loc_pin);
 		but_gps = (Button) findViewById(R.id.main_button_add_loc_gps);
 
@@ -45,22 +43,22 @@ public class MainActivity extends Activity {
 				// show MapActivity
 				Intent intent = new Intent(view.getContext(), ActivityMap.class);
 				intent.putExtra("isTapAllowed", tap);
-				intent.putExtra("origin",origin);
-				Log.e(TAG,origin+"getOnClickListener");
-				startActivityForResult(intent,1);
+				intent.putExtra("origin", origin);
+				startActivityForResult(intent, 1);
 			}
 		};
 		return listener;
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 1) {
-			if (resultCode == RESULT_OK) {				
+			if (resultCode == RESULT_OK) {
 				Intent returnIntent = new Intent();
-				returnIntent.putExtra("lag", data.getIntExtra("lag", Integer.MAX_VALUE));
-				returnIntent.putExtra("lon", data.getIntExtra("lon", Integer.MAX_VALUE));
-				Log.e(TAG,data.getIntExtra("lag", Integer.MAX_VALUE)+" "+data.getIntExtra("lon", Integer.MAX_VALUE));
+				returnIntent.putExtra("lag",
+						data.getIntExtra("lag", Integer.MAX_VALUE));
+				returnIntent.putExtra("lon",
+						data.getIntExtra("lon", Integer.MAX_VALUE));
 				setResult(Activity.RESULT_OK, returnIntent);
 				finish();
 			}

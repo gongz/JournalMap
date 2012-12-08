@@ -9,6 +9,7 @@ import com.cmu.journalmap.activities.StartPage;
 import com.cmu.journalmap.utilities.PictureUtility;
 import com.cmu.journalmap.utilities.PropertiesUtility;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,8 +19,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.util.Log;
-import android.widget.Toast;
+
 
 public class CheckService extends Service {
 
@@ -54,6 +54,7 @@ public class CheckService extends Service {
 		}
 	}
 
+	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -92,12 +93,10 @@ public class CheckService extends Service {
 			for (int i = 0; i < numOfPlaces; i++) {
 				String tempPhotoLocation = PropertiesUtility.getProperty(
 						getApplicationContext(), "photoLocation" + i);
-				Log.e("ENTRY", tempPhotoLocation);
 				if (!tempPhotoLocation.isEmpty()) {
 					Boolean entry = hashTable.get(tempPhotoLocation);
 					if (entry != null) {
 						if (entry == false) {
-							Log.e("ENTRY", tempPhotoLocation);
 							hashTable.put(tempPhotoLocation, true);
 						}
 					}
