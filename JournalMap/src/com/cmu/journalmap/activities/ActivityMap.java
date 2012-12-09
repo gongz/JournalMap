@@ -70,14 +70,32 @@ public class ActivityMap extends MapActivity {
 		if (tap == 2) {	
 			mapView.getContext();
 			LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-			Location lastKnownLoc = lm
+			Location lastKnownLocGPS = lm
 					.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+			Location lastKnownLocNetwork = lm
+					.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			Location lastKnownLoc = lastKnownLocNetwork;
+			if (lastKnownLocGPS != null) {
+				if (lastKnownLocNetwork != null) {
+					if (!lastKnownLocGPS.equals(lastKnownLocNetwork)) {
+						lastKnownLoc = lastKnownLocGPS;
+					}
+				} else {
+					lastKnownLoc = lastKnownLocGPS;
+				}
+			}
 			if (lastKnownLoc != null) {
 				int longTemp = (int) (lastKnownLoc.getLongitude() * 1000000);
 				int latTemp = (int) (lastKnownLoc.getLatitude() * 1000000);
 				Intent returnIntent = new Intent();
 				returnIntent.putExtra("lag", latTemp);
 				returnIntent.putExtra("lon", longTemp);
+				setResult(Activity.RESULT_OK, returnIntent);
+				finish();
+			} else {
+				Intent returnIntent = new Intent();
+				returnIntent.putExtra("lag", 0);
+				returnIntent.putExtra("lon", 0);
 				setResult(Activity.RESULT_OK, returnIntent);
 				finish();
 			}
