@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.cmu.journalmap.activities.R;
-import com.cmu.journalmap.activities.StartPage;
+import com.cmu.journalmap.activities.HomePage;
 import com.cmu.journalmap.utilities.PictureUtility;
 import com.cmu.journalmap.utilities.PropertiesUtility;
 
@@ -139,7 +139,7 @@ public class CheckService extends Service {
 		Notification notification = new Notification(R.drawable.jm_launcher,
 				message, System.currentTimeMillis());
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-				new Intent(this, StartPage.class), 0);
+				new Intent(this, HomePage.class), 0);
 		notification.setLatestEventInfo(this, "JournalMap Service", message,
 				contentIntent);
 		notificationMgr.notify(100, notification);

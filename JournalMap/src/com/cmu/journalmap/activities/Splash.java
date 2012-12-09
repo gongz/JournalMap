@@ -12,7 +12,7 @@ public class Splash extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.splash);
+		setContentView(R.layout.activity_splash);
 		Intent intent = new Intent(this, CheckService.class);
 		startService(intent);
 		Thread timer = new Thread()

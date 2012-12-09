@@ -5,10 +5,12 @@
     <string name="title_activity_main">JournalMap</string>
     
     <string name="show_map">Show Map</string>
+    <string name="show_gallery">Show Gallery</string>
+    <string name="show_home">Home</string>
     <string name="map">Map</string>
     <string name="back">Back</string>
     <string name="next">Next</string>
-
+	<string name="quit">Quit</string>
     <string name="add_loc_pin">Add Location by tapping on map</string>
     <string name="add_loc_gps">Add Location with gps info</string>
 	
@@ -27,6 +29,7 @@
 	<string name="save_button">Save Place</string>
 	<string name="view_map">View Map</string>
 	<string name="view_photos">View Photos</string>
+	<string name="finish">Finish</string>
 	
 	
 	

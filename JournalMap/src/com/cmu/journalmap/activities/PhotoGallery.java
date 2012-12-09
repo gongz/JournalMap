@@ -11,6 +11,9 @@ import com.cmu.journalmap.utilities.PropertiesUtility;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -18,7 +21,7 @@ import android.widget.TextView;
 
 public class PhotoGallery extends Activity
 {
-	
+	private Button quitButton = null;
 	
 	
 	@Override
@@ -27,7 +30,12 @@ public class PhotoGallery extends Activity
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_photogallery);
-		
+		quitButton = (Button) findViewById(R.id.bQuitButton);
+		quitButton.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				finish();
+			}
+		});
 		LinearLayout linlayout = (LinearLayout) this.findViewById(R.id.llPhotoGallery);
 
 		int numOfEntries = 0;

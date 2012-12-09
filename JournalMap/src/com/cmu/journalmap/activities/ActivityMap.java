@@ -40,6 +40,7 @@ public class ActivityMap extends MapActivity {
 	private void populateMap() {
 		mapView = (MapView) findViewById(R.id.mapView);
 		mapView.setBuiltInZoomControls(true);
+		mapView.getZoomButtonsController().setAutoDismissed(false);
 		mapView.setSatellite(true);
 		currentLocationOverLay = new MyLocationOverlay(this, mapView);
 		currentLocationOverLay.enableMyLocation();
@@ -96,6 +97,7 @@ public class ActivityMap extends MapActivity {
 		Button bt_next = (Button) findViewById(R.id.map_button_next);
 		if (origin != 1)
 			bt_next.setVisibility(View.GONE);
+		else bt_next.setText(getResources().getString(R.string.finish));
 		bt_back.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
 				// close MapActivity

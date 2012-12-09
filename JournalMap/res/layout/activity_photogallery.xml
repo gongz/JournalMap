@@ -3,17 +3,18 @@
     android:id="@+id/svPhotoGallery"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
-   <LinearLayout
+
+    <LinearLayout
         android:id="@+id/llPhotoGallery"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-
-       
-       
-       
+        <Button
+            android:id="@+id/bQuitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back" />
     </LinearLayout>
 
 </ScrollView>

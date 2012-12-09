@@ -13,8 +13,8 @@ import android.widget.Button;
  * @author Kathy and Archer
  * 
  */
-public class MainActivity extends Activity {
-	public static final String TAG = MainActivity.class.getName();
+public class ChooseMethodForLocation extends Activity {
+	public static final String TAG = ChooseMethodForLocation.class.getName();
 	private Button but_pin;
 	private Button but_gps;
 	private int origin = -1;
@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_choose_location_method);
 		this.origin = getIntent().getIntExtra("origin", -1);
 		but_pin = (Button) findViewById(R.id.main_button_add_loc_pin);
 		but_gps = (Button) findViewById(R.id.main_button_add_loc_gps);

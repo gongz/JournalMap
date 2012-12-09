@@ -112,7 +112,6 @@ public class SavePlace extends Activity {
 							.isCoordinatesValid(PictureUtility
 									.getCoordsFromPhoto(picPath)) ? PictureUtility
 							.getCoordsFromPhoto(picPath) : currentCoordinates;
-
 					if (PictureUtility.isCoordinatesValid(tempCoords)) {
 						newPlace = new Place(new GeoPoint(tempCoords[0],
 								tempCoords[1]), "", "");
@@ -126,11 +125,13 @@ public class SavePlace extends Activity {
 								ActivityMap.class);
 						Places.getItems().add(newPlace);
 						intent3.putExtra("origin",origin);
+						startActivity(new Intent(v.getContext(),
+								HomePage.class));
 						startActivity(intent3);
 						finish();
 					} else {
 						Intent intent2 = new Intent(v.getContext(),
-								MainActivity.class);
+								ChooseMethodForLocation.class);
 						intent2.putExtra("origin",origin);
 						startActivityForResult(intent2, 1);
 					}
@@ -211,7 +212,7 @@ public class SavePlace extends Activity {
 				String picPath = PictureUtility.getRealPathFromURI(imageUri, SavePlace.this);
 				System.out.printf("Path is:", picPath);
 				int[] tempCoords = PictureUtility.getCoordsFromPhoto(picPath);
-				if ((tempCoords[0] == 0) || (tempCoords[1] == 0)) {
+				if (!PictureUtility.isCoordinatesValid(tempCoords)) {
 					// EXIF Coords were NOT found
 					Log.i("PictureUtlity", "EXIF Coords were NOT found");
 

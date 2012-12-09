@@ -33,6 +33,7 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 	private RelativeLayout _bubbleLayout;
 	private boolean isTapAllowed = false;
 	private Activity mapActivity = null;
+	private GeoPoint lastPoint = null;
 	
 	
 	public GoalLocationOverLay(Drawable marker, MapView mapView,
@@ -106,6 +107,12 @@ public class GoalLocationOverLay extends ItemizedOverlay<OverlayItem> {
 		if (isTapAllowed && !tapped && _bubbleLayout == null) {
 			Toast.makeText(mapView.getContext(), geoToString(point),
 					Toast.LENGTH_SHORT).show();
+			if(size()>0){
+				if(lastPoint == Places.getItems().get(size()-1).getGeoLocation()){
+					Places.getItems().remove(size()-1);
+				}
+			}
+			this.lastPoint = point;
 			addPoint(point);
 			mapView.getController().animateTo(point);
 			return true;
