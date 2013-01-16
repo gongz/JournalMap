@@ -67,8 +67,7 @@ public class ActivityMap extends MapActivity {
 			mapPins.redraw();
 		}
 		mapView.getOverlays().add(mapPins);
-		if (tap == 2) {	
-			mapView.getContext();
+		if (tap == 2) {
 			LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 			Location lastKnownLocGPS = lm
 					.getLastKnownLocation(LocationManager.GPS_PROVIDER);

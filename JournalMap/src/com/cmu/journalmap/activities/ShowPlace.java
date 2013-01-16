@@ -33,7 +33,7 @@ public class ShowPlace extends Activity {
 		commentBlock = (TextView) findViewById(R.id.showComments);
 		playAudio = (Button) findViewById(R.id.bRecPlayButton);
 		playVideo = (Button) findViewById(R.id.bVideoPlayButton);
-		placePic = (ImageView) findViewById(R.id.ShowPlacePic);		
+		placePic = (ImageView) findViewById(R.id.ShowPlacePic);
 		backButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				finish();
@@ -69,7 +69,6 @@ public class ShowPlace extends Activity {
 							R.string.rec_play_button));
 					AudioUtility.stopPlaying(mPlayer);
 				}
-
 			}
 		});
 		

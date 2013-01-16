@@ -18,6 +18,7 @@ import android.content.Intent;
 
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.nfc.NdefMessage;
@@ -168,7 +169,7 @@ public class SavePlace extends Activity {
 						v.getResources().getString(R.string.rec_play_button))) {
 					if (audioLoc.length() > 5) {
 						playAudio.setText(v.getResources().getString(
-								R.string.rec_stop_button));
+								R.string.rec_stop_button));	
 						mPlayer = AudioUtility.startPlaying(audioLoc);
 					}
 				} else {
@@ -185,7 +186,7 @@ public class SavePlace extends Activity {
 				Uri fileUri = VideoUtility
 						.getOutputMediaFileUri(VideoUtility.MEDIA_TYPE_VIDEO);
 				intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-				intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+				intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
 				startActivityForResult(intent,
 						VideoUtility.CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
 			}
